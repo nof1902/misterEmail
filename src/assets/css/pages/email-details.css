@@ -1,0 +1,35 @@
+
+.header-page{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    border-bottom: 1px;
+    padding: 10px 15px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-page h1{
+    font-weight: bold;
+}
+
+.body-page{
+    padding-top: 30px;
+    margin-left: 20px;
+}
+
+.email-details img{
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.body-of-email{
+    margin-bottom: 20px;
+}
+
+.email-data{
+    color: rgb(175, 175, 175);
+}
+
+

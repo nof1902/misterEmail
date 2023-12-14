@@ -1,0 +1,19 @@
+.app-header {
+    display: flex;
+    color: rgb(0, 0, 0);
+    padding: 15px 10px;
+}
+
+.logo{
+    display: flex;
+}
+
+h1{
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+img{
+    max-width: 30px;
+    margin-left: 5px; 
+}
