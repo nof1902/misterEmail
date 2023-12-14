@@ -24,9 +24,10 @@ export function App() {
                     <Routes>
                         <Route path="/" element={<EmailIndex />} />
                         <Route path="/about" element={<AboutUs />}/>
-                        <Route path="/emails" element={<EmailIndex />} />
+                        <Route path="/emails" element={<EmailIndex />}>
+                            <Route path="/emails/new" element={<EmailCompose />} />
+                        </Route>
                         <Route path="/emails/:id" element={<EmailDetails />} />
-                        <Route path="/emails/new" element={<EmailCompose />} />
                     </Routes>
                 </main>
                 <footer className='footer'>

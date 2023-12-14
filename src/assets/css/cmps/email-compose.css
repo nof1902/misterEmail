@@ -1,0 +1,10 @@
+.new-msg-container{
+    display: grid;
+    /* grid-template-rows: ; */
+    grid-auto-flow: column;
+ }
+ 
+ /* form{
+     display: grid;
+     grid-auto-flow: column;
+ } */

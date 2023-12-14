@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { EmailList } from "../cmps/EmailList"
 import { emailService } from '../services/email.service'
@@ -40,6 +41,7 @@ export function EmailIndex() {
         <section className=".email-details .container">
             <EmailFilter filterBy={{ textSearch, isRead }} onSetFilter={onSetFilter}/>
             <EmailList emails={emails} onRemoveEmail={onRemoveEmail} />
+            <Outlet />
         </section>
     )
 }
