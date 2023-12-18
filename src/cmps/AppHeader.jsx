@@ -1,4 +1,5 @@
 import { utilService } from '../services/util.service'
+import imgUrlGmailLogo from'/gmaillogo.png'
 
 
 export function AppHeader() {
@@ -6,7 +7,7 @@ export function AppHeader() {
     return (
         <header className="app-header">
             <section className='logo'>
-                <img src={utilService.getImgUrl('../assets/imgs/gmaillogo.png')} alt='gmail logo'></img>
+                <img src={imgUrlGmailLogo} alt='gmail logo'></img>
                 <h1>Gmail</h1>
                 {/* Search */}
             </section>
