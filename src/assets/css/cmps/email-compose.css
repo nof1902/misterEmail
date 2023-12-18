@@ -56,10 +56,6 @@ form{
     padding: 10px;
 }
 
-.separate{
-    border-bottom: 1px #33353a;
-}
-
 input{
     width: 100%;
     grid-area: "i";

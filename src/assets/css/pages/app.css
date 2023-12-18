@@ -1,34 +1,10 @@
 
-.main-app {
-    background-color: #F6F8FC;
-    min-height: 100vh;
+.the-app{
     display: grid;
-    grid-template-rows: auto 8fr auto;
-    grid-template-columns: minmax(180px, 230px) 1fr;
-    grid-template-areas: 
-        "h h"
-        "a m"
-        "f f";
-}
-
-.header {
-    grid-area: h;
-    
-}
-
-.aside{
-    grid-area: a;
-    
-}
-
-.main {
-    grid-area: m;
-    background-color: #ffffff;
-    border-radius: 15px;
-
+    grid-template-rows: 1fr 30px;
 }
 
 .footer {
-    grid-area: f;
+    align-items: center;
     color: rgb(0, 0, 0);
 }

@@ -1,12 +1,26 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams, useOutletContext} from "react-router-dom"
 import imgUrlclose from '/close-window.png'
 
 export function EmailCompose(){
     
     const navigate = useNavigate();
+    const params = useParams();
+    const onSend = useOutletContext();
 
     function onClose() {
-        navigate('/emails')
+        navigate(`/emails/${params.folder}`)
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        const formElements = event.target.elements;
+        onSend({
+            from: formElements.from.value,
+            to: formElements.to.value,
+            subject: formElements.subject.value,
+            body: formElements.body.value
+        });
+        onClose();
     }
 
     return(
@@ -19,22 +33,13 @@ export function EmailCompose(){
                     </button>
                 </section>
             </section>
-            <form className="the-msg">
-                <div className="separate">
-                    <input className="from" id="from" placeholder="From"></input>
-                </div>
-                <div className="separate">
-                    <input className="to" id="to" placeholder="To"></input>
-                </div>
-                <div className="separate">
-                    <input className="subject" id="subject" placeholder="Subject"></input>
-                </div>
-                <div className="separate">
-                    <textarea id="body"></textarea>
-                </div>
-                <button className="send">Send</button> 
-                {/* onclick -> the email will saved at storage (maybediffernt one)
-                and will be component that render (get all send emails) */}
+
+            <form className="the-msg" onSubmit={handleSubmit}>
+                <input className="from" id="from" placeholder="From"></input>
+                <input className="to" id="to" placeholder="To"></input>
+                <input className="subject" id="subject" placeholder="Subject"></input>
+                <textarea id="body"></textarea>
+                <button type="submit" className="send">Send</button> 
             </form>
     </section>
     )

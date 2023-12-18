@@ -3,8 +3,9 @@ export const utilService = {
     makeId,
     saveToStorage,
     loadFromStorage,
-    getImgUrl
+    getImgUrl,
 }
+
 
 function makeId(length = 5) {
     var text = "";
@@ -27,3 +28,4 @@ function loadFromStorage(key, defaultValue = null) {
 function getImgUrl(url) {
     return new URL(url, import.meta.url).href
 }
+

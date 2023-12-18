@@ -1,40 +1,35 @@
 import { Route, HashRouter as Router, Routes } from 'react-router-dom'
-import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { AboutUs } from './pages/AboutUs'
 import { EmailIndex } from './pages/EmailIndex'
 import { EmailDetails } from './pages/EmailDetails'
-import { ToolBar } from './cmps/ToolBar'
+import { HomePage } from './pages/HomePage'
 import { EmailCompose } from './cmps/EmailCompose'
 
 
 export function App() {
     
     return (
-        <Router>
-            <section className='main-app'>
-                <header className='header'>
-                    <AppHeader />
-                </header>
-                <aside className='aside'>
-                    <ToolBar />
-                </aside>
-                {/*  <main className="main container"> */}
-                <main className="main">
+        <section className="the-app">
+            <Router>
+                <main className="main-app">
                     <Routes>
-                        <Route path="/" element={<EmailIndex />} />
-                        <Route path="/about" element={<AboutUs />}/>
-                        <Route path="/emails" element={<EmailIndex />}>
-                            <Route path="/emails/new" element={<EmailCompose />} />
+                        {/* Home */}
+                        <Route path="/" element={<HomePage />} />
+                        {/* folder */}
+                        <Route path="/emails/:folder" element={<EmailIndex />}>
+                            <Route path="/emails/:folder/new" element={<EmailCompose />} />
+                            <Route path="/emails/:folder/:id" element={<EmailDetails />} />
                         </Route>
-                        <Route path="/emails/:id" element={<EmailDetails />} />
+                        {/* about as */}
+                        <Route path="/about" element={<AboutUs />}/>
                     </Routes>
                 </main>
                 <footer className='footer'>
                     <AppFooter />
                 </footer >
-            </section>
-        </Router>
+            </Router>
+        </section>
     )
 }
 

@@ -7,8 +7,8 @@ export const emailService = {
     remove,
     getById,
     createEmail,
-    getDefaultFilter
-    // getLoggedInUser
+    getDefaultFilter,
+    getLoggedInUser
 }
 
 const STORAGE_KEY = 'emails'
@@ -25,6 +25,8 @@ async function query(filterBy) {
             ((textSearch === '' || email.subject.includes(textSearch) || email.body.includes(textSearch))
             && (isRead === null || email.isRead === isRead))
         );
+
+        // if from ===  getLoggedInUser.email ->sent emails
     }
     return emails;
 }
@@ -47,19 +49,20 @@ function save(emailToSave) {
     }
 }
 
-function createEmail() {
+function createEmail(from, to, subject, body) {
     return {
             id: '',
-            subject: '',
-            body: '',
+            subject: subject,
+            body: body,
             isRead: false,
             isStarred: false,
-            sentAt : 0,
+            sentAt : new Date(),
             removedAt : null, //for later use
-            from: '',
-            to: ''
+            from: from,
+            to: to
         }
 }
+
 
 function getDefaultFilter() {
     return {
@@ -69,13 +72,13 @@ function getDefaultFilter() {
     }
 }
 
-// function getLoggedInUser()
-// {
-//     return {
-//         email: 'nofar@melamed.com',
-//         fullname: 'Nofar Melamed'
-//    }
-// }
+function getLoggedInUser()
+{
+    return {
+        email: 'nofar@melamed.com',
+        fullname: 'Nofar Melamed'
+   }
+}
 
 function _createEmails() {
     let emails = utilService.loadFromStorage(STORAGE_KEY)
@@ -83,24 +86,45 @@ function _createEmails() {
         emails = [
             {
                 id: 'e1', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
-                sentAt : 'Jun 25', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
+                sentAt : 'Jun 15', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
             },
             {
                 id: 'e2', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
-                sentAt : 'Apr 03', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
+                sentAt : 'Sep 20', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
             },
             {
                 id: 'e3', subject: 'new discounts', body: 'new discounts', isRead: false, isStarred: false,
-                sentAt : 'Jun 13', removedAt : null, from: 'eBay', to: 'user@appsus.com'
+                sentAt : 'Jun 2', removedAt : null, from: 'eBay', to: 'user@appsus.com'
             },
             {
                 id: 'e4', subject: 'Security alert', body: 'Your Google Account was just in to form', isRead: false, isStarred: false,
-                sentAt : 'Jun 1', removedAt : null, from: 'Google', to: 'user@appsus.com'
+                sentAt : 'Dec 24', removedAt : null, from: 'Google', to: 'user@appsus.com'
             }
         ]
         utilService.saveToStorage(STORAGE_KEY, emails)
     }
 }
+
+/*
+
+            {
+                id: 'e1', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
+                sentAt : '2023-06-12T20:00:07.001Z', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
+            },
+            {
+                id: 'e2', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
+                sentAt : '2023-04-30T13:30:54.001Z', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
+            },
+            {
+                id: 'e3', subject: 'new discounts', body: 'new discounts', isRead: false, isStarred: false,
+                sentAt : '2023-06-30T09:07:13.001Z', removedAt : null, from: 'eBay', to: 'user@appsus.com'
+            },
+            {
+                id: 'e4', subject: 'Security alert', body: 'Your Google Account was just in to form', isRead: false, isStarred: false,
+                sentAt : '2023-12-18T08:50:32.001Z', removedAt : null, from: 'Google', to: 'user@appsus.com'
+            }
+
+*/
 
 
     

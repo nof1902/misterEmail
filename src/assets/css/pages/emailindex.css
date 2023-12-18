@@ -1,5 +1,29 @@
-.email-details .container {
-    /* width: 100%; */
+.main-app {
+    background-color: #F6F8FC;
+    min-height: 100vh;
+    min-width: 100vw;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: minmax(200px, 230px) 1fr;
+    grid-template-areas: 
+        "h h"
+        "a m";
+}
+
+.header {
+    grid-area: h;
+}
+
+.aside{
+    grid-area: a;
+}
+
+.main {
+    grid-area: m;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 15px;
     margin: 0;
     padding: 0;
 }
+
