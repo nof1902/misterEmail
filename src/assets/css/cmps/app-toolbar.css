@@ -1,51 +1,66 @@
-.app-toolbar{
+.app-sidebar{
     display: flex;
     flex-direction: column;
-    align-content:center; 
+    height: 100vh;
 }
 
-
-/* new email */
-.compose-container{
-    height: 50px;
+ul {
+    margin: 0;
+    padding: 0;
 }
 
-.compose{
-    align-self: center;
-    border: 1px solid #fffafa;
-    border-radius: 30px;
-    padding: 10px;
-    margin: 5px;
-    background-color: white;
-    box-shadow: 0px 3px 6px #00000029;
+.nav-item{
+    margin: 0;
+    border-radius: 0; 
 }
 
-/* nav tool-bar */
-.toolbar nav a {
-    padding: 10px 15px;
-    display: block;
-    color: black;
-    text-decoration: none;
-    /* width: 100%; */
+.nav-item a{
+    display: grid;
+    grid-template-columns: 35px 1fr;
+    grid-template-areas: "i t";
+    padding: 10px 20px;
+    border-radius: 0; 
 }
 
-.toolbar nav a:hover {
-    background-color: #ffffff;
+.app-sidebar img{
+    grid-area: i;
+    max-width: 20px;
+    margin-right: 10px;
 }
 
-.toolbar nav a.active{
+.app-sidebar h1{
+    grid-area: t;
+    font-size: 15px;
+    font-weight: normal;
+    margin: 0;
+}
+
+/* actions */
+.nav-item:not(.compose) a:hover,
+.nav-item:not(.compose) a.active{
+    border-bottom-right-radius: 40px;
+    border-top-right-radius: 40px;
+    background-color: #EAEBEF; 
+}
+
+.nav-item:not(.compose) a.active h1{
     font-weight: bold;
 }
 
+.nav-item:not(.compose) a.active{
+    background-color: #D3E3FD;
+}
 
-/* .app-toolbar {
-    display: flex;
-    flex-direction: column;
-    align-content:center;
-    background-color: #e9e9e9;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    overflow-y: auto;
-} */
+/* compose */
+.compose{
+    border-radius: 15px;
+    background-color: #C2E7FF;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 7px 20px 7px 0px;
+    width: fit-content;
+}
+
+.nav-item.compose:hover{
+    box-shadow: 0px 3px 6px #00000029;
+}

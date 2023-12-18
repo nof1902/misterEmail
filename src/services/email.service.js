@@ -69,13 +69,13 @@ function getDefaultFilter() {
     }
 }
 
-function getLoggedInUser()
-{
-    return {
-        email: 'nofar@melamed.com',
-        fullname: 'Nofar Melamed'
-   }
-}
+// function getLoggedInUser()
+// {
+//     return {
+//         email: 'nofar@melamed.com',
+//         fullname: 'Nofar Melamed'
+//    }
+// }
 
 function _createEmails() {
     let emails = utilService.loadFromStorage(STORAGE_KEY)

@@ -11,11 +11,11 @@
     flex-direction: row;
 }
 .email-preview h1{
-    font-weight: 380;
+    font-weight: 700;
 }
 
 .email-preview.read h1{
-    font-weight: 700;
+    font-weight: 380;
 }
 
 .email-preview a {
@@ -51,6 +51,7 @@
     margin-right: 10px;
 }
 
+
 .email-preview .remove-email,.email-preview .isRead {
     display: none;
 }
@@ -62,12 +63,13 @@
 
 .email-preview:hover .isRead {
     display: block;
+    max-width: 22px;
 }
 
 .email-preview:hover .remove-email {
     display: block;
+    max-width: 27px;
 }
-
 
 
 

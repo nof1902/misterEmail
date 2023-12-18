@@ -8,7 +8,7 @@ import imgUrlremove from '/remove.png'
 export function EmailDetails(){
 
     const [email, setEmail] = useState(null);
-    const [notification, setNotification] = useState({ show: false, message: '' });
+    // const [notification, setNotification] = useState({ show: false, message: '' });
     const params = useParams();
     const navigate = useNavigate();
 
