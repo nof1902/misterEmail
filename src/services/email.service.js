@@ -105,27 +105,6 @@ function _createEmails() {
     }
 }
 
-/*
-
-            {
-                id: 'e1', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
-                sentAt : '2023-06-12T20:00:07.001Z', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
-            },
-            {
-                id: 'e2', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
-                sentAt : '2023-04-30T13:30:54.001Z', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
-            },
-            {
-                id: 'e3', subject: 'new discounts', body: 'new discounts', isRead: false, isStarred: false,
-                sentAt : '2023-06-30T09:07:13.001Z', removedAt : null, from: 'eBay', to: 'user@appsus.com'
-            },
-            {
-                id: 'e4', subject: 'Security alert', body: 'Your Google Account was just in to form', isRead: false, isStarred: false,
-                sentAt : '2023-12-18T08:50:32.001Z', removedAt : null, from: 'Google', to: 'user@appsus.com'
-            }
-
-*/
-
 
     
 

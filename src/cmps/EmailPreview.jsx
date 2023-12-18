@@ -10,10 +10,8 @@ export function EmailPreview({ email , onRemoveEmail}){
     const params = useParams();
 
     function RenderTime(sentAt) {
-        // Attempt to parse the sentAt string as a Date object if it's not already
         const dateObject = new Date(sentAt);
     
-        // Check if the date object is valid
         if (!isNaN(dateObject.getTime())) {
             const months = [
                 "Jan", "Feb", "Mar", "Apr",
@@ -21,13 +19,11 @@ export function EmailPreview({ email , onRemoveEmail}){
                 "Oct", "Nov", "Dec"
             ];
             
-            // Format the date into a 'Mon DD' format
             return `${months[dateObject.getMonth()]} ${dateObject.getDate()}`;
         } else {
             return sentAt;
         }
     }
-    
     
     
     return (
