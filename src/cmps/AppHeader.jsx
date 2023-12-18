@@ -8,6 +8,7 @@ export function AppHeader() {
             <section className='logo'>
                 <img src={utilService.getImgUrl('../assets/imgs/gmaillogo.png')} alt='gmail logo'></img>
                 <h1>Gmail</h1>
+                {/* Search */}
             </section>
         </header>
     )
