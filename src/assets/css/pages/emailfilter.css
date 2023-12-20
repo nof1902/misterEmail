@@ -1,7 +1,6 @@
 
 .email-filter{
     display: flex;
-    
     padding: 20px;
 }
 
@@ -19,9 +18,8 @@ select {
     width: auto;
 }
 
-/* search filter */
 .text-filter{
-    width: 300px;
+    width: 600px;
 }
 
 .input-icon-container{
@@ -30,11 +28,18 @@ select {
     align-items: center;
 }
 
+.text-input {
+    border-radius: 30px;
+    padding: 10px;
+    margin: 5px;
+    background-color: #EAF1FB;
+    box-shadow: none;
+}
+
 .search-icon {
     position: absolute;
     right: 10px; 
     height: 20px; 
     width: auto;
 }
-
 

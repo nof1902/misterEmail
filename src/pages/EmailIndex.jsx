@@ -63,7 +63,7 @@ export function EmailIndex() {
                 <AppHeader />
             </section>
             <section className='aside'>
-                <ToolBar />
+                <ToolBar filterBy={{ textSearch, isRead }} onSetFilter={onSetFilter}/>
             </section>
             <section className="main">
                 <EmailFilter filterBy={{ textSearch, isRead }} onSetFilter={onSetFilter}/>

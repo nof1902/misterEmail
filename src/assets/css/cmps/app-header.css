@@ -1,5 +1,6 @@
 .app-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: 205px 1fr;
     color: rgb(0, 0, 0);
     padding: 15px 10px;
 }
@@ -21,3 +22,23 @@
     max-width: 35px;
     margin-left: 5px; 
 }
+
+/* search filter */
+.text-filter{
+    width: 600px;
+    background-color: inherit;
+}
+
+.input-icon-container{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px; 
+    height: 20px; 
+    width: auto;
+}
+
