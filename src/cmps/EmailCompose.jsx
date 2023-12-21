@@ -3,10 +3,13 @@ import imgUrlclose from '/close-window.png'
 
 export function EmailCompose(){
     
+    // const [email, setEmail] = useState(create email)
+    
     const navigate = useNavigate();
     const params = useParams();
-    const onSend = useOutletContext();
+    const { onSendEmail } = useOutletContext();
 
+    console.log('hey')
     function onClose() {
         navigate(`/emails/${params.folder}`)
     }
@@ -14,7 +17,7 @@ export function EmailCompose(){
     function handleSubmit(event) {
         event.preventDefault();
         const formElements = event.target.elements;
-        onSend({
+        onSendEmail({
             from: formElements.from.value,
             to: formElements.to.value,
             subject: formElements.subject.value,

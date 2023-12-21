@@ -3,7 +3,7 @@ export const utilService = {
     makeId,
     saveToStorage,
     loadFromStorage,
-    getImgUrl,
+    getImgUrl
 }
 
 
@@ -29,3 +29,25 @@ function getImgUrl(url) {
     return new URL(url, import.meta.url).href
 }
 
+
+
+
+//   {
+//     folder: 'sent',
+//     icon: (
+//     <File
+//         size={20}
+//         stroke={currentNav === 'drafts' ? 'black' : '#484A49'}
+//     />
+//     ),
+// },
+// {
+//     to: '/trash',
+//     label: 'Trash',
+//     icon: (
+//     <Trash2
+//         size={20}
+//         stroke={currentNav === 'trash' ? 'black' : '#484A49'}
+//     />
+//     ),
+// },

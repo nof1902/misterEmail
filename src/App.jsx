@@ -6,7 +6,6 @@ import { EmailDetails } from './pages/EmailDetails'
 import { HomePage } from './pages/HomePage'
 import { EmailCompose } from './cmps/EmailCompose'
 
-
 export function App() {
     
     return (
@@ -14,19 +13,15 @@ export function App() {
             <Router>
                 <main className="main-app">
                     <Routes>
-                        {/* Home */}
-                        {/* <Route path="/" element={<HomePage />} /> */}
-                        <Route path="/" element={<EmailIndex />} />
-                        {/* folder */}
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/about" element={<AboutUs />}/>
                         <Route path="/emails/:folder" element={<EmailIndex />}>
                             <Route path="/emails/:folder/new" element={<EmailCompose />} />
                             <Route path="/emails/:folder/:id" element={<EmailDetails />} />
                         </Route>
-                        {/* about as */}
-                        <Route path="/about" element={<AboutUs />}/>
                     </Routes>
                 </main>
-                <footer className='footer'>
+                <footer>
                     <AppFooter />
                 </footer >
             </Router>

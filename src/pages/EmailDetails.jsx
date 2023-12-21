@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { emailService } from '../services/email.service'
 import imgUrlback from '/back.png'
 import imgUrlremove from '/remove.png'
+import { ArrowLeft, Trash2} from 'lucide-react'
 
 export function EmailDetails(){
 
@@ -22,6 +23,7 @@ export function EmailDetails(){
             setAsRead(email)
             setEmail(email)
         } catch (error) {
+            // go to list -> go back
             console.log('error:', error)
         }
     }

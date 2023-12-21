@@ -1,10 +1,11 @@
+.main-app {
+  display: grid;
+  grid-template-rows: 1fr auto;
 
-.the-app{
-    display: grid;
-    grid-template-rows: 1fr 30px;
 }
-
-.footer {
+  
+  
+.main-app .footer {
     align-items: center;
     color: rgb(0, 0, 0);
 }

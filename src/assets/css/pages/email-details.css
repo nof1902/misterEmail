@@ -11,6 +11,7 @@
 
 .header-page h1{
     font-weight: bold;
+    font-size: 20px;
 }
 
 .body-page{
@@ -20,8 +21,8 @@
 
 .email-details img{
     cursor: pointer;
-    width: 20px;
-    height: 20px;
+    width: 26px;
+    height: 26px;
 }
 
 .body-of-email{

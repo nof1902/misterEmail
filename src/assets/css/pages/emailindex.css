@@ -1,4 +1,4 @@
-.main-app {
+.mail-app {
     background-color: #F6F8FC;
     min-height: 100vh;
     min-width: 100vw;
@@ -10,15 +10,15 @@
         "a m";
 }
 
-.header {
+.mail-app header {
     grid-area: h;
 }
 
-.aside{
+.mail-app aside{
     grid-area: a;
 }
 
-.main {
+.mail-app .main {
     grid-area: m;
     width: 100%;
     background-color: #ffffff;

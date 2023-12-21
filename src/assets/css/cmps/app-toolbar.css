@@ -1,70 +1,74 @@
 .app-sidebar{
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-}
-
-ul {
-    margin: 0;
-    padding: 0;
 }
 
 .nav-item{
     margin: 0;
+    padding: 0;
     border-radius: 0; 
+}
+
+.app-sidebar ul {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.app-sidebar li{
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }
 
 .nav-item a{
     display: grid;
     grid-template-columns: 30px 1fr;
-    grid-template-areas: "i t";
     padding: 10px 20px;
-    border-radius: 0; 
-}
+    border-radius: 0;
+    margin: 0;
+    width: 230px;
+} 
 
-.app-sidebar img{
-    grid-area: i;
-    max-width: 20px;
-    margin-right: 10px;
-}
-
-.app-sidebar h1{
-    grid-area: t;
+.app-sidebar span{
     font-size: 15px;
     font-weight: normal;
     margin: 0;
 }
 
+/* compose */
+
+.app-sidebar .compose a{
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    grid-gap: 5px;
+    margin-left: 5px;
+    margin-bottom: 15px;
+    padding: 20px 0px 20px 15px;
+    border-radius: 10px;
+    background-color: #C2E7FF;
+    width: 150px;
+}
+
+.app-sidebar .compose a:hover{
+    box-shadow: 0px 3px 6px #00000029;
+}
+
 /* actions */
-.nav-item:not(.compose) a:hover,
-.nav-item:not(.compose) a.active{
+.nav-item a:hover,
+.nav-item a.active{
     border-bottom-right-radius: 40px;
     border-top-right-radius: 40px;
     background-color: #EAEBEF; 
 }
 
-.nav-item:not(.compose) a.active h1{
+.nav-item a.active span{
     font-weight: bold;
 }
 
-.nav-item:not(.compose) a.active{
+.nav-item a.active{
     background-color: #D3E3FD;
 }
 
-/* compose */
-/* .compose-btn{
-    all: unset;
-} */
-
-.compose{
-    border-radius: 15px;
-    background-color: #C2E7FF;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    padding: 7px 20px 7px 0px;
-    width: fit-content;
-}
-
-.nav-item.compose:hover{
-    box-shadow: 0px 3px 6px #00000029;
-}

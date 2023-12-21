@@ -1,19 +1,30 @@
-import { AppHeader } from '../cmps/AppHeader'
-import { ToolBar } from '../cmps/ToolBar'
 
+import { AppHeader } from '../cmps/AppHeader'
+import { SideBar } from '../cmps/SideBar'
 import { Outlet, useParams } from "react-router-dom"
 import { useEffect, useState} from "react"
 import { EmailList } from "../cmps/EmailList"
 import { emailService } from '../services/email.service'
+import { utilService } from '../services/util.service'
 import { EmailFilter } from "./EmailFilter"
 
 
 export function EmailIndex() {
     
     const [emails, setEmails] = useState(null)
-    const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
+    const [newEmail, setNewEmai] = useState({
+        to:'',
+        ubject:'',
+        body:''
+    })
 
-    const params = useParams();
+    const [sortBy, setSortBy] = useState({
+        date: '' 
+        // accending
+    })
+
+    const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
+    const params = useParams()
 
     useEffect(() => {
         loadEmail(filterBy)
@@ -34,8 +45,13 @@ export function EmailIndex() {
             console.log('error:', error)
         }
     }
-    
-    function onSend(newMailToSend){
+
+    // function onUpdateEmail(emailId){
+
+    // }
+    function onSendEmail(newMailToSend){
+
+        // await emailService.remove(emailId)
         const from = newMailToSend.from;
         const to = newMailToSend.to;
         const subject = newMailToSend.subject;
@@ -53,23 +69,22 @@ export function EmailIndex() {
         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
     }
 
+
     const {textSearch, isRead} = filterBy
     if (!emails) return <div>Loading...</div>
     
-
     return (
-        <section className='main-app'>
-            <section className='header'>
+        <section className='mail-app'>
+            <header>
                 <AppHeader />
-            </section>
-            <section className='aside'>
-                <ToolBar filterBy={{ textSearch, isRead }} onSetFilter={onSetFilter}/>
-            </section>
+            </header>
+            <aside>
+                <SideBar currentNav={params.folder}/>
+            </aside>
             <section className="main">
                 <EmailFilter filterBy={{ textSearch, isRead }} onSetFilter={onSetFilter}/>
                 {!params.id && <EmailList emails={emails} onRemoveEmail={onRemoveEmail} />}
-                {/* {params.folder === 'user-sent-emails' && <EmailList emails={emails} onRemoveEmail={onRemoveEmail} />} */}
-                <Outlet context={onSend}/> 
+                <Outlet context={onSendEmail}/> 
             </section>
         </section>
     )
