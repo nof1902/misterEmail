@@ -5,7 +5,7 @@ export function NavItem({folder , icon}){
     const params = useParams();
     const navigate = useNavigate();
 
-    console.log(params)
+    // console.log(params)
     // console.log(navigate)
 
     return(

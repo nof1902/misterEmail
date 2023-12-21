@@ -4,10 +4,20 @@ import imgUrlclose from '/close.png'
 import imgUrlopen from '/open.png'
 import imgUrlremove from '/remove.png'
 
-export function EmailPreview({ email , onRemoveEmail}){
+import {MailOpen,Mail, Star, Trash2} from 'lucide-react'
+import { useEffect, useState } from "react"
 
-    const readModeClass = email.isRead ? 'read' : ''
+
+export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
+    
+    const [isStarred, setIsStarred] = useState(null)
+    const [isRead, setIsRead] = useState(false);
     const params = useParams();
+
+    useEffect(() => (
+        setIsRead(email.isRead),
+        setIsStarred(email.isStarred)
+    ),[])
 
     function RenderTime(sentAt) {
         const dateObject = new Date(sentAt);
@@ -24,26 +34,48 @@ export function EmailPreview({ email , onRemoveEmail}){
             return sentAt;
         }
     }
+
+    async function onHandleStar(){
+        try{
+            const updatedEmail = { ...email, isStarred: !email.isStarred }
+            onUpdateEmail(updatedEmail)
+        } catch {
+            console.log('error:', error)
+        }
+        
+        setIsStarred(!email.isStarred)
+        onUpdateEmail(email.id)
+    }
+
+    async function onHandleOpen(){
+        try {
+            const updatedEmail = { ...email, isRead: !email.isRead };
+            onUpdateEmail(updatedEmail)
+        } catch (error) {
+            console.log('error:', error)
+        }
+        setIsRead(!email.isRead)
+    }
     
-    
+
+    const readModeClass = email.isRead ? 'read' : ''
+    const star = email.isStarred ? 'none' : 'rgb(240, 195, 14)';
+
+   
     return (
         <li className={`email-preview ${readModeClass}`}>
-                <section className="starred"></section>
-                <Link to={`/emails/${params.list}/${email.id}`}>
-                    <h1 className="from">{email.from}</h1>
-                    <h1 className="subject">{email.subject}</h1>
-                    <h1 className="body">{email.body.substring(0, 25)}</h1>
-                    <h1 className="sent-at">{RenderTime(email.sentAt)}</h1>
-                    <section className="isRead">
-                        { email.isRead ? (<img src={imgUrlopen} alt="Mark as read" />
-                        ) : (
-                            <img src={imgUrlclose} alt="Mark as unread" /> 
-                            )}
-                    </section>
-                </Link>
-                <section className="remove-email">
-                        <img src={imgUrlremove} alt="Remove message" onClick={() => onRemoveEmail(email.id)} />
-                </section>
+            <Star size={20} strokeWidth={1.2} onClick={onHandleStar} fill={star}/>
+            <Link to={`/emails/${params.list}/${email.id}`}>
+                <h1 className="from">{email.from}</h1>
+                <h1 className="subject">{email.subject}</h1>
+                <h1 className="body">{email.body.substring(0, 25)}</h1>
+                <h1 className="sent-at">{RenderTime(email.sentAt)}</h1>
+            </Link>
+            <section className="actions-email">   
+                { email.isRead ? <MailOpen color={'black'} size={25} strokeWidth={1.2} onClick={onHandleOpen} /> : 
+                            <Mail color={'black'} size={25} strokeWidth={1.2} onClick={onHandleOpen} />}
+                <Trash2 color={'black'} size={25} strokeWidth={1.2} onClick={() => onRemoveEmail(email.id)}/>
+            </section>
         </li>
     )
 }

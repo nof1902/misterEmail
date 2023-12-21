@@ -5,7 +5,6 @@ import { Outlet, useParams } from "react-router-dom"
 import { useEffect, useState} from "react"
 import { EmailList } from "../cmps/EmailList"
 import { emailService } from '../services/email.service'
-import { utilService } from '../services/util.service'
 import { EmailFilter } from "./EmailFilter"
 
 
@@ -25,30 +24,42 @@ export function EmailIndex() {
 
     const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
     const params = useParams()
-
+   
     useEffect(() => {
         loadEmail(filterBy)
     },[filterBy])
 
     async function loadEmail(filterBy) {
-        const emails = await emailService.query(filterBy)
+        const { emails } = await emailService.query(filterBy,params.folder,EmailFilter)
         setEmails(emails)
     }
 
     async function onRemoveEmail(emailId) {
-        try {
-            await emailService.remove(emailId)
-            setEmails(prevEmail => {
-                return prevEmail.filter(email => email.id !== emailId)
-            })
+        try{
+            if(params.folder === 'trash'){
+                await emailService.remove(emailId)
+            } else {
+                const emailToRemove = await emailService.getById(emailId);
+                emailToRemove.removedAt = Date.now();
+                await emailService.save(emailToRemove);
+            }
+            setEmails((prevEmail) => prevEmail.filter(email => email.id !== emailId))
         } catch (error) {
             console.log('error:', error)
         }
     }
 
-    // function onUpdateEmail(emailId){
+    async function onUpdateEmail(mailToUpdate){
+        try{
+            const updatedMail = await emailService.save(mailToUpdate);
+            setEmails((prevEmails) => prevEmails.map( email => {
+                return email.id === mailToUpdate.id ? updatedMail : email
+            }))
+        } catch (error) {
+            console.log('error:', error)
+        }
+    }
 
-    // }
     function onSendEmail(newMailToSend){
 
         // await emailService.remove(emailId)
@@ -83,7 +94,11 @@ export function EmailIndex() {
             </aside>
             <section className="main">
                 <EmailFilter filterBy={{ textSearch, isRead }} onSetFilter={onSetFilter}/>
-                {!params.id && <EmailList emails={emails} onRemoveEmail={onRemoveEmail} />}
+                {!params.id && <EmailList 
+                    emails={emails} 
+                    onRemoveEmail={onRemoveEmail}
+                    onUpdateEmail={onUpdateEmail}
+                    />}
                 <Outlet context={onSendEmail}/> 
             </section>
         </section>

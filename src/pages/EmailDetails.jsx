@@ -11,7 +11,7 @@ export function EmailDetails(){
     const params = useParams();
     const navigate = useNavigate();
 
-    console.log('EmailDetails ' + params)
+    // console.log('EmailDetails ' + params)
 
     useEffect(() => {
         loadEmail()
@@ -46,7 +46,6 @@ export function EmailDetails(){
         } catch (error) {
             console.log('error:', error)
         }
-
         onBack()
     }
 

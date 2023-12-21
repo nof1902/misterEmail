@@ -17,18 +17,59 @@ const STORAGE_KEY = 'emails'
  _createEmails()
 
 
-async function query(filterBy) {
+async function query(filterBy,folder,EmailFilter) {
     let emails = await storageService.query(STORAGE_KEY);
-    if (filterBy) {
-        const { textSearch = '', isRead} = filterBy;
-        emails = emails.filter(email => 
-            ((textSearch === '' || email.subject.includes(textSearch) || email.body.includes(textSearch))
-            && (isRead === null || email.isRead === isRead))
-        );
 
-        // if from ===  getLoggedInUser.email ->sent emails
+    switch (folder) {
+        case 'starred':
+            emails = emails.filter(email => email.isStarred);
+            break;
+        case 'sent':
+            emails = emails.filter(email => email.sentAt);
+            break;
+        case 'trash':
+            emails = emails.filter(email => email.removedAt);
+            break;
+        case 'inbox':
+            emails = emails.filter(email => !email.removedAt);
+            break;
+        case 'drafts':
+            console.log('drafts');
+            break;
+        default:
+            console.log('No such folder');
+            break;
     }
-    return emails;
+
+    const emailCount = emails.length;
+    // sort
+    
+    if(!filterBy) return emails;
+    
+    else{
+        const { textSearch = '', isRead} = filterBy;
+
+        console.log({isRead})
+
+        switch (isRead) {
+            case true:
+                emails = emails.filter(email => email.isRead === true);
+                break;
+            case false:
+                emails = emails.filter(email => email.isRead === false);
+                break;
+            default:
+                console.log('all');
+            break;    
+        }
+
+        if(textSearch.length && textSearch.length !== 0){
+            emails = emails.filter(email => (email.subject.includes(textSearch) || email.body.includes(textSearch)))
+        }
+
+        return {emails, emailCount};
+    }
+    
 }
 
 
@@ -57,7 +98,7 @@ function createEmail(from, to, subject, body) {
             isRead: false,
             isStarred: false,
             sentAt : new Date(),
-            removedAt : null, //for later use
+            removedAt : null,
             from: from,
             to: to
         }

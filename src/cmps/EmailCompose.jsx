@@ -9,7 +9,6 @@ export function EmailCompose(){
     const params = useParams();
     const { onSendEmail } = useOutletContext();
 
-    console.log('hey')
     function onClose() {
         navigate(`/emails/${params.folder}`)
     }
