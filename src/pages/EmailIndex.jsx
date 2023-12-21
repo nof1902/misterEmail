@@ -62,7 +62,6 @@ export function EmailIndex() {
 
     function onSendEmail(newMailToSend){
 
-        // await emailService.remove(emailId)
         const from = newMailToSend.from;
         const to = newMailToSend.to;
         const subject = newMailToSend.subject;

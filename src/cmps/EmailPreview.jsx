@@ -10,14 +10,7 @@ import { useEffect, useState } from "react"
 
 export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
     
-    const [isStarred, setIsStarred] = useState(null)
-    const [isRead, setIsRead] = useState(false);
     const params = useParams();
-
-    useEffect(() => (
-        setIsRead(email.isRead),
-        setIsStarred(email.isStarred)
-    ),[])
 
     function RenderTime(sentAt) {
         const dateObject = new Date(sentAt);
@@ -42,8 +35,6 @@ export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
         } catch {
             console.log('error:', error)
         }
-        
-        setIsStarred(!email.isStarred)
         onUpdateEmail(email.id)
     }
 
@@ -54,7 +45,6 @@ export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
         } catch (error) {
             console.log('error:', error)
         }
-        setIsRead(!email.isRead)
     }
     
 
