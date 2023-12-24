@@ -11,7 +11,7 @@ import { EmailFilter } from "./EmailFilter"
 export function EmailIndex() {
     
     const [emails, setEmails] = useState(null)
-    const [newEmail, setNewEmai] = useState({
+    const [newEmail, setNewEmail] = useState({
         to:'',
         ubject:'',
         body:''
@@ -27,7 +27,7 @@ export function EmailIndex() {
    
     useEffect(() => {
         loadEmail(filterBy)
-    },[filterBy])
+    },[filterBy][emails])
 
     async function loadEmail(filterBy) {
         const { emails } = await emailService.query(filterBy,params.folder,EmailFilter)
@@ -51,34 +51,28 @@ export function EmailIndex() {
 
     async function onUpdateEmail(mailToUpdate){
         try{
-            const updatedMail = await emailService.save(mailToUpdate);
+            const updatedEmail = await emailService.save(mailToUpdate);
             setEmails((prevEmails) => prevEmails.map( email => {
-                return email.id === mailToUpdate.id ? updatedMail : email
+                return email.id === mailToUpdate.id ? updatedEmail : email
             }))
         } catch (error) {
             console.log('error:', error)
         }
     }
 
-    function onSendEmail(newMailToSend){
-
-        const from = newMailToSend.from;
-        const to = newMailToSend.to;
-        const subject = newMailToSend.subject;
-        const body = newMailToSend.body;
-
-        const newEmail = emailService.createEmail(from,to,subject,body);
-        emailService.save(newEmail);
+    async function onAddEmail(emailToAdd){
+        try{
+            const addedEmail = await emailService.save(emailToAdd);
+            setEmails((prevEmails) => [...prevEmails,addedEmail])
+        } catch {
+            console.log('error:', error)
+        }
     }
 
-    function onReadEmail(msgToRead){
-        console.log(newMsgToSend)
-    }
 
     function onSetFilter(filterBy) {
         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
     }
-
 
     const {textSearch, isRead} = filterBy
     if (!emails) return <div>Loading...</div>
@@ -86,19 +80,19 @@ export function EmailIndex() {
     return (
         <section className='mail-app'>
             <header>
-                <AppHeader />
+                <AppHeader filterBy={{ isRead }} onSetFilter={onSetFilter}/>
             </header>
             <aside>
                 <SideBar currentNav={params.folder}/>
             </aside>
             <section className="main">
-                <EmailFilter filterBy={{ textSearch, isRead }} onSetFilter={onSetFilter}/>
+                <EmailFilter filterBy={{ isRead }} onSetFilter={onSetFilter}/>
                 {!params.id && <EmailList 
                     emails={emails} 
                     onRemoveEmail={onRemoveEmail}
                     onUpdateEmail={onUpdateEmail}
                     />}
-                <Outlet context={onSendEmail}/> 
+                <Outlet context={{onAddEmail , onUpdateEmail, onRemoveEmail}}/> 
             </section>
         </section>
     )

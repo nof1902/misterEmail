@@ -4,7 +4,7 @@
     padding: 20px;
 }
 
-.filter-input {
+.email-filter .filter-input {
     border: 1px solid #fffafa;
     border-radius: 30px;
     padding: 10px;
@@ -13,15 +13,16 @@
     box-shadow: 0px 3px 6px #00000029;
 }
 
-select {
+.email-filter select {
     cursor: pointer;
     width: auto;
 }
 
-.text-filter{
+.email-filter .text-filter{
     width: 600px;
 }
 
+/* 
 .input-icon-container{
     position: relative;
     display: flex;
@@ -41,5 +42,5 @@ select {
     right: 10px; 
     height: 20px; 
     width: auto;
-}
+} */
 

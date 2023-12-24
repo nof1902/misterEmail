@@ -16,7 +16,6 @@ const STORAGE_KEY = 'emails'
 // localStorage.clear();
  _createEmails()
 
-
 async function query(filterBy,folder,EmailFilter) {
     let emails = await storageService.query(STORAGE_KEY);
 
@@ -25,16 +24,16 @@ async function query(filterBy,folder,EmailFilter) {
             emails = emails.filter(email => email.isStarred);
             break;
         case 'sent':
-            emails = emails.filter(email => email.sentAt);
+            emails = emails.filter(email => email.from === getLoggedInUser().email);
             break;
         case 'trash':
             emails = emails.filter(email => email.removedAt);
             break;
         case 'inbox':
-            emails = emails.filter(email => !email.removedAt);
+            emails = emails.filter(email => !email.removedAt && email.from !== getLoggedInUser().email);
             break;
-        case 'drafts':
-            console.log('drafts');
+        case 'draft':
+            emails = emails.filter(email => email.from === getLoggedInUser().email && !email.sentAt);
             break;
         default:
             console.log('No such folder');
@@ -49,8 +48,6 @@ async function query(filterBy,folder,EmailFilter) {
     else{
         const { textSearch = '', isRead} = filterBy;
 
-        console.log({isRead})
-
         switch (isRead) {
             case true:
                 emails = emails.filter(email => email.isRead === true);
@@ -59,7 +56,6 @@ async function query(filterBy,folder,EmailFilter) {
                 emails = emails.filter(email => email.isRead === false);
                 break;
             default:
-                console.log('all');
             break;    
         }
 
@@ -90,14 +86,16 @@ function save(emailToSave) {
     }
 }
 
-function createEmail(from, to, subject, body) {
+
+
+function createEmail(from = '', to ='', subject='', body='') {
     return {
             id: '',
             subject: subject,
             body: body,
             isRead: false,
             isStarred: false,
-            sentAt : new Date(),
+            sentAt : null,
             removedAt : null,
             from: from,
             to: to

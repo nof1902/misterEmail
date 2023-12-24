@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import imgUrlsearch from '/search.png'
+import { Search } from 'lucide-react'
 
 export function EmailFilter({ filterBy, onSetFilter }) {
     
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
-    function handleChange(event) {
-        const { name, value } = event.target;
+    function handleChange({ target }) {
+        const { name: field, value } = target;
         
         let filterValue = value;
         switch(filterValue) {
@@ -23,7 +23,7 @@ export function EmailFilter({ filterBy, onSetFilter }) {
                 filterValue = value; 
         }
         
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, [name]: filterValue }));
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: filterValue }));
     }
 
     useEffect(() => {
@@ -32,11 +32,6 @@ export function EmailFilter({ filterBy, onSetFilter }) {
 
     return (
         <form className="email-filter">
-            <section className="input-icon-container">
-                <input className="filter-input text-filter" onChange={handleChange} id="textSearch" name="textSearch" 
-                    type="text" placeholder="Search email..." />
-                <img className="search-icon" src={imgUrlsearch} alt="search icon"/>
-            </section>
             <select className="filter-input filter-select" onChange={handleChange} id="isRead" name="isRead">
                 <option value="all">All</option>
                 <option value="read">Read</option>

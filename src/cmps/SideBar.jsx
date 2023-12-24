@@ -39,6 +39,7 @@ export function SideBar({ }) {
         <nav className="app-sidebar">
             <ul>
                 <li className='compose'>
+                    {/* button */}
                     <Link to={`/emails/${params.folder}/new`}>
                         <Pencil size={20} strokeWidth={1.5}/>
                         <span>Compose</span>  

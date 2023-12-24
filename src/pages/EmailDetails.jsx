@@ -1,52 +1,38 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, useOutletContext } from "react-router-dom"
 import { emailService } from '../services/email.service'
-import imgUrlback from '/back.png'
-import imgUrlremove from '/remove.png'
 import { ArrowLeft, Trash2} from 'lucide-react'
 
-export function EmailDetails(){
-
+export function EmailDetails()
+{
     const [email, setEmail] = useState(null);
-    const params = useParams();
     const navigate = useNavigate();
-
-    // console.log('EmailDetails ' + params)
+    const { folder, id } = useParams();
+    const { onRemoveEmail, onUpdateEmail} = useOutletContext()
 
     useEffect(() => {
         loadEmail()
-    }, [params.folder.id])
+    }, [folder.id])
 
     async function loadEmail() {
         try {
-            const email = await emailService.getById(params.id)
-            setAsRead(email)
-            setEmail(email)
+            let email = await emailService.getById(id)
+            email.isRead = true
+            onUpdateEmail(email)
+            setEmail(email);
         } catch (error) {
-            // go to list -> go back
+            onBack();
             console.log('error:', error)
         }
     }
 
-   function setAsRead(email){
-       email.isRead = true;
-        emailService.save(email)
+    async function onHandleRemoveEmail(emailId) {
+        onRemoveEmail(emailId);
+        onBack();
     }
 
     function onBack() {
-        navigate(`/emails/${params.folder}`)
-    }
-
-    async function onRemoveEmail(emailId) {
-        try {
-            await emailService.remove(emailId)
-            setEmail(prevEmail => {
-                return prevEmail.filter(email => email.id !== emailId)
-            })
-        } catch (error) {
-            console.log('error:', error)
-        }
-        onBack()
+        navigate(`/emails/${folder}`)
     }
 
     if (!email) return <div>Loading...</div>
@@ -56,8 +42,8 @@ export function EmailDetails(){
             <section className="header-page">
                 <h1>{email.subject}</h1>
                 <section className="actions">
-                    <img className="back" src={imgUrlback} alt="Back to Inbox" onClick={onBack} />
-                    <img className="remove-email" src={imgUrlremove} alt="Remove message" onClick={() => (onRemoveEmail(email.id)) } />
+                    <ArrowLeft onClick={onBack}/>
+                    <Trash2 onClick={() => onHandleRemoveEmail(email.id)}/>
                 </section>
             </section>
             <section className="body-page">

@@ -1,6 +1,7 @@
 .main-app {
   display: grid;
   grid-template-rows: 1fr auto;
+  background-color: #E8EAED;
 
 }
   

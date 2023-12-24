@@ -1,17 +1,11 @@
 // import { useEffect, useState, useRef } from "react"
 import { Link, useParams} from "react-router-dom"
-import imgUrlclose from '/close.png'
-import imgUrlopen from '/open.png'
-import imgUrlremove from '/remove.png'
-
 import {MailOpen,Mail, Star, Trash2} from 'lucide-react'
-import { useEffect, useState } from "react"
-
 
 export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
     
     const params = useParams();
-
+    
     function RenderTime(sentAt) {
         const dateObject = new Date(sentAt);
     
@@ -46,18 +40,16 @@ export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
             console.log('error:', error)
         }
     }
-    
 
     const readModeClass = email.isRead ? 'read' : ''
-    const star = email.isStarred ? 'none' : 'rgb(240, 195, 14)';
+    const star = email.isStarred ? 'rgb(240, 195, 14)' : 'none';
 
-   
     return (
         <li className={`email-preview ${readModeClass}`}>
             <Star size={20} strokeWidth={1.2} onClick={onHandleStar} fill={star}/>
-            <Link to={`/emails/${params.list}/${email.id}`}>
+            <Link to={`/emails/${params.folder}/${email.id}`}>
                 <h1 className="from">{email.from}</h1>
-                <h1 className="subject">{email.subject}</h1>
+                <h1 className="subject">{email.subject.substring(0, 10)}</h1>
                 <h1 className="body">{email.body.substring(0, 25)}</h1>
                 <h1 className="sent-at">{RenderTime(email.sentAt)}</h1>
             </Link>
