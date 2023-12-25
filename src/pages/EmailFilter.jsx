@@ -1,38 +1,36 @@
 import { useEffect, useState } from "react"
-import { Search } from 'lucide-react'
 
 export function EmailFilter({ filterBy, onSetFilter }) {
     
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-
-    function handleChange({ target }) {
-        const { name: field, value } = target;
-        
-        let filterValue = value;
-        switch(filterValue) {
-            case 'all':
-                filterValue = null;
-                break;
-            case 'read':
-                filterValue = true;
-                break;
-            case 'unread':
-                filterValue = false;
-                break;
-            default:
-                filterValue = value; 
-        }
-        
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: filterValue }));
-    }
-
+    
     useEffect(() => {
         onSetFilter(filterByToEdit)
     },[filterByToEdit])
 
+    function handleChange({ target }) {
+        let { name: field, value } = target;
+        
+        switch(value) {
+            case 'all':
+                value = null;
+                break;
+            case 'read':
+                value = true;
+                break;
+            case 'unread':
+                value = false;
+                break;
+            default:
+                break;
+        }
+
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }));
+    }
+
     return (
         <form className="email-filter">
-            <select className="filter-input filter-select" onChange={handleChange} id="isRead" name="isRead">
+            <select onChange={handleChange} id="isRead" name="isRead">
                 <option value="all">All</option>
                 <option value="read">Read</option>
                 <option value="unread">Unread</option>

@@ -1,12 +1,13 @@
 import { useState, useEffect} from "react"
 import { useNavigate, useParams, useOutletContext, Link} from "react-router-dom"
 import { emailService } from '../services/email.service'
-import {X} from 'lucide-react'
-
+import {X, Maximize2, Minimize2,Minus} from 'lucide-react'
 
 export function EmailCompose(){
     
     const [email, setEmail] = useState(emailService.createEmail())
+    const [isFull, setIsFull] = useState(false)
+    
     const { onAddEmail, onUpdateEmail } = useOutletContext()
     const navigate = useNavigate();
     const params = useParams();
@@ -43,6 +44,23 @@ export function EmailCompose(){
         navigate(`/emails/${params.folder}`);
     }
 
+    function onChangeScreenAttr({ target }){
+        const {name: filed, value} = target;
+        if(filed.value === 'fullscreen'){
+            setIsFull(true)
+        }
+
+        if(filed.value === 'minimaize'){
+            setIsFull(false)
+        }
+
+        if(filed.value === 'minimaize'){
+            setIsFull(false)
+        }
+
+
+    } 
+
     // email that is is being composed is auto saved every 5
     // seconds and can be viewed in the draft folder until sent 
     
@@ -53,9 +71,16 @@ export function EmailCompose(){
                 <section className="actions">
                     <Link to={`/emails/${params.folder}`}>
                         <button className="close">
-                            <X size={15}/>
+                            <X size={12}/>
                         </button>
                     </Link>
+                    <button className="fullscreen" name="fullscreen" value="fullscreen" onClick={onChangeScreenAttr}>
+                            <Maximize2 size={12}/>
+                            {/* <Minimize2 size={15}/> */}
+                    </button>
+                    <button className="minimaize" name="minimaize" value="minimaize" onClick={onChangeScreenAttr}>
+                            <Minus size={12}/>
+                    </button>
                 </section>
             </section>
 

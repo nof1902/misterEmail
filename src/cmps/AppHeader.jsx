@@ -19,7 +19,7 @@ export function AppHeader({ filterBy, onSetFilter }) {
     return (
         <header className="app-header">
             <section className='logo'>
-                <section className='main-menu'>
+                <section className='button-marg'>
                     <AlignJustify />
                 </section>
                 <img src={imgUrlGmailLogo} alt='gmail logo'></img>

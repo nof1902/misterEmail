@@ -5,15 +5,17 @@
 @import "basics/animations.css";
 
 /* Pages */
-@import "./pages/app.css";
 @import "./pages/home-pase.css";
 @import "./pages/about-us.css";
 @import "./pages/email-details.css";
 @import "./pages/emailindex.css";
 @import "./pages/emailfilter.css";
+@import "./pages/user-msg.css";
+@import "./pages/emailsort.css";
 
 /* Components */
 @import "./cmps/app-header.css";
+@import "./cmps/app-footer.css";
 @import "./cmps/app-toolbar.css";
 @import "./cmps/email-list.css";
 @import "./cmps/email-preview.css";

@@ -1,52 +1,62 @@
 .app-header {
     display: grid;
-    grid-template-columns: 215px 1fr;
-    align-items: center;
+    grid-template-columns: 215px auto;
+    align-content: center;
     color: rgb(0, 0, 0);
+    align-items: center;
+    margin-top: 5px;
 }
 
 .logo{
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 50px 1fr;
+    place-content: center;
 }
 
-.logo .main-menu{
-    cursor: pointer;
+.button-marg{
     display: flex;
     align-items: center; 
-    justify-content: center; 
-    height: 48px;
-    width: 48px;
-    margin: 12px;
-    border-radius: 100%;
+    justify-content: center;
+    border-radius: 100%; 
+    cursor: pointer;
 }
 
-.logo .main-menu svg{
+.logo .button-marg{
+    height: 48px;
+    width: 48px;
+}
+
+.logo .button-marg svg{
     color: #5f6368;
     opacity: 1;
     transition: color 0.3s;
 }
 
-.logo .main-menu:hover{
+.logo .button-marg:hover{
     background-color: #E8EAED;
 }
 
 .app-header img{
-    margin: 0;
     width: 109px;
-    height: 40px  
+    height: 40px;
+    margin-top: 3px;  
 }
 
 /* search filter */
 .text-filter{
     width: 600px;
     background-color: inherit;
+    margin: 0;
+    padding: 0;
 }
 
 .input-icon-container{
     position: relative;
     display: flex;
     align-items: center;
+    margin-top: 3px;
+    margin-left: 10px;
 }
 
 .input-icon-container input{

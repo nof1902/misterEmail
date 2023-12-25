@@ -1,11 +1,11 @@
 
-.email-filter{
+.email-sort{
     display: flex;
     padding: 5px;
     border-radius: 30px;
 }
 
-.email-filter select {
+.email-sort select{
     border: 1px solid #fffafa;
     padding: 5px;
     margin: 5px;
@@ -15,5 +15,3 @@
     cursor: pointer;
     width: auto;
 }
-
-

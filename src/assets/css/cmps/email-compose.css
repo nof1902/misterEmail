@@ -1,7 +1,8 @@
+/* regular */
 .new-msg-container{
-    position: absolute;
-    bottom: 0;
-    left: 60%;
+    position: fixed;
+    bottom: 5px;
+    left: 60%;   
     display: grid;
     grid-template-rows: auto 1fr;
     background-color: #F6F8FC;
@@ -14,7 +15,24 @@
     border-bottom: none;
 }
 
- /* header */
+/* fullscreen */
+/* .new-msg-container.fullscreen{
+    position: fixed;
+    background-color: rgba(0,0,0,.5);
+    inset: 0;
+    margin: 2em;
+    padding: 2em;
+    border-radius: 1em;
+    height: 90vh;
+}
+
+form{
+    height: 70vh
+}
+
+
+*/
+
 
 .header-new-msg{
     display: flex;
@@ -23,21 +41,18 @@
     align-items: center;
     background: #F6F8FC;
     padding: 10px;
+    border-radius: 8px 8px 0px 0px;
 }
 
 .header-new-msg h1{
     margin-left: 5px;
     font-size: 18px;
 }
-
-.new-msg-container img{
-    max-width: 10px;
-    max-height: 10px;
-    margin-right: 5px;
-}
-.close {
+.header-new-msg button {
     all: unset;
     cursor: pointer;
+    padding: 3px;
+
 }
 
 /* the message */
@@ -54,6 +69,8 @@ form{
     border-color: none;
     border-bottom: 1px solid #F6F8FC;
     padding: 10px;
+    /* height: 70vh; fullscreen mode*/
+    border-radius: 0px 0px 8px 8px;
 }
 
 input{

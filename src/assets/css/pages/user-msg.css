@@ -1,0 +1,38 @@
+
+.user-msg,
+.user-msg.success
+{
+    background-color: rgb(0, 0, 0);
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    font-weight: bold;
+    border-radius: 15px;
+    display: grid;
+    grid-auto-flow: column;
+    place-items: center;
+    padding-left: 20px;
+}
+
+.user-msg.error p,
+.user-msg.error{
+    background-color: rgb(0, 0, 0);
+    color: red;
+    font-weight: 700;
+}
+
+
+.user-msg button {
+    all: unset;
+    background-color: inherit;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    padding: 5px; 
+    border-radius: 100%;
+}
+
+.user-msg .button-marg:hover{
+    background-color: #7d797957;
+}

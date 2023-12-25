@@ -29,7 +29,6 @@ export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
         } catch {
             console.log('error:', error)
         }
-        onUpdateEmail(email.id)
     }
 
     async function onHandleOpen(){
@@ -49,8 +48,8 @@ export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
             <Star size={20} strokeWidth={1.2} onClick={onHandleStar} fill={star}/>
             <Link to={`/emails/${params.folder}/${email.id}`}>
                 <h1 className="from">{email.from}</h1>
-                <h1 className="subject">{email.subject.substring(0, 10)}</h1>
-                <h1 className="body">{email.body.substring(0, 25)}</h1>
+                <h1 className="subject">{email.subject.substring(0, 20)}</h1>
+                <h1 className="body">{email.body.substring(0, 50)}</h1>
                 <h1 className="sent-at">{RenderTime(email.sentAt)}</h1>
             </Link>
             <section className="actions-email">   

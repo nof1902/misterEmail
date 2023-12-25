@@ -3,15 +3,16 @@
     min-height: 100vh;
     min-width: 100vw;
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 57px 1fr;
     grid-template-columns: minmax(200px, 230px) 1fr;
     grid-template-areas: 
-        "h h"
-        "a m";
+    "h h"
+    "a m";
 }
 
 .mail-app header {
     grid-area: h;
+
 }
 
 .mail-app aside{
@@ -20,9 +21,9 @@
 
 .mail-app .main {
     grid-area: m;
+    border-radius: 30px;
     width: 100%;
     background-color: #ffffff;
-    border-radius: 30px;
     margin: 0;
     padding: 0;
 }

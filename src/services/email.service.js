@@ -8,7 +8,9 @@ export const emailService = {
     getById,
     createEmail,
     getDefaultFilter,
-    getLoggedInUser
+    getLoggedInUser,
+    getFilterFromParams,
+    getDefaultSort
 }
 
 const STORAGE_KEY = 'emails'
@@ -16,35 +18,48 @@ const STORAGE_KEY = 'emails'
 // localStorage.clear();
  _createEmails()
 
-async function query(filterBy,folder,EmailFilter) {
+async function query(filterBy,folder,sortBy) {
     let emails = await storageService.query(STORAGE_KEY);
 
     switch (folder) {
         case 'starred':
-            emails = emails.filter(email => email.isStarred);
+            emails = emails.filter(email => !email.removedAt && email.isStarred);
             break;
         case 'sent':
-            emails = emails.filter(email => email.from === getLoggedInUser().email);
+            emails = emails.filter(email => email.from === getLoggedInUser().email && !email.removedAt);
             break;
         case 'trash':
             emails = emails.filter(email => email.removedAt);
             break;
         case 'inbox':
-            emails = emails.filter(email => !email.removedAt && email.from !== getLoggedInUser().email);
+            emails = emails.filter(email => email.from !== getLoggedInUser().email && !email.removedAt);
             break;
         case 'draft':
-            emails = emails.filter(email => email.from === getLoggedInUser().email && !email.sentAt);
+            emails = emails.filter(email => email.from === getLoggedInUser().email && !email.sentAt && !email.removedAt);
             break;
         default:
             console.log('No such folder');
             break;
     }
 
-    const emailCount = emails.length;
-    // sort
+    // const emailCount = emails.length;
+    
+    if(sortBy.date)
+    {
+        emails.sort((a, b) =>
+            (sortBy.order === 'asc') ? a.sentAt - b.sentAt : b.sentAt - a.sentAt
+        );
+    }
+
+    if(sortBy.title)
+    {  
+        emails.sort((a, b) =>
+            sortBy.order === 'asc' ? a.title - b.title : b.title - a.title
+        );
+    }
+
     
     if(!filterBy) return emails;
-    
     else{
         const { textSearch = '', isRead} = filterBy;
 
@@ -63,7 +78,7 @@ async function query(filterBy,folder,EmailFilter) {
             emails = emails.filter(email => (email.subject.includes(textSearch) || email.body.includes(textSearch)))
         }
 
-        return {emails, emailCount};
+        return emails;
     }
     
 }
@@ -86,8 +101,6 @@ function save(emailToSave) {
     }
 }
 
-
-
 function createEmail(from = '', to ='', subject='', body='') {
     return {
             id: '',
@@ -107,9 +120,20 @@ function getDefaultFilter() {
     return {
         status: '',
         textSearch: '',
-        isRead: null
+        isRead: null,
+        date: ''
     }
 }
+
+function getDefaultSort() {
+    return {
+        date: null,
+        title: null,
+        order:''
+    }
+}
+
+
 
 function getLoggedInUser()
 {
@@ -142,6 +166,15 @@ function _createEmails() {
         ]
         utilService.saveToStorage(STORAGE_KEY, emails)
     }
+}
+
+function getFilterFromParams(searchParams) {
+    const defaultFilter = getDefaultFilter()
+    const filterBy = {}
+    for (const field in defaultFilter) {
+        filterBy[field] = searchParams.get(field) || defaultFilter[field]
+    }
+    return filterBy
 }
 
 

@@ -5,6 +5,7 @@ import { EmailIndex } from './pages/EmailIndex'
 import { EmailDetails } from './pages/EmailDetails'
 import { HomePage } from './pages/HomePage'
 import { EmailCompose } from './cmps/EmailCompose'
+import { UserMsg } from './pages/UserMsg'
 
 export function App() {
     
@@ -21,9 +22,8 @@ export function App() {
                         </Route>
                     </Routes>
                 </main>
-                <footer>
-                    <AppFooter />
-                </footer >
+                <UserMsg />
+                <AppFooter />
             </Router>
         </section>
     )
