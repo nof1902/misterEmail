@@ -1,13 +1,13 @@
-// import { useEffect, useState, useRef } from "react"
+
 import { Link, useParams} from "react-router-dom"
 import {MailOpen,Mail, Star, Trash2} from 'lucide-react'
 
 export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
     
-    const params = useParams();
+    const params = useParams()
     
     function RenderTime(sentAt) {
-        const dateObject = new Date(sentAt);
+        const dateObject = new Date(sentAt)
     
         if (!isNaN(dateObject.getTime())) {
             const months = [
@@ -16,9 +16,9 @@ export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
                 "Oct", "Nov", "Dec"
             ];
             
-            return `${months[dateObject.getMonth()]} ${dateObject.getDate()}`;
+            return `${months[dateObject.getMonth()]} ${dateObject.getDate()}`
         } else {
-            return sentAt;
+            return sentAt
         }
     }
 
@@ -41,7 +41,7 @@ export function EmailPreview({ email , onRemoveEmail, onUpdateEmail}){
     }
 
     const readModeClass = email.isRead ? 'read' : ''
-    const star = email.isStarred ? 'rgb(240, 195, 14)' : 'none';
+    const star = email.isStarred ? 'rgb(240, 195, 14)' : 'none'
 
     return (
         <li className={`email-preview ${readModeClass}`}>

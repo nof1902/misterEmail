@@ -1,10 +1,11 @@
 /* regular */
 .new-msg-container{
     position: fixed;
-    bottom: 5px;
-    left: 60%;   
+    bottom: 0;
+    left: 60%;
     display: grid;
     grid-template-rows: auto 1fr;
+    grid-template-columns: auto;
     background-color: #F6F8FC;
     border: 1px solid #e9e8e8; 
     box-shadow: 0px 4px 6px 4px rgba(0, 0, 0, 0.1);
@@ -15,24 +16,41 @@
     border-bottom: none;
 }
 
-/* fullscreen */
-/* .new-msg-container.fullscreen{
+/* minimize Mode*/
+.new-msg-container.minimize .header-new-msg{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+}
+
+.new-msg-container.minimize{
+    position: fixed;
+    min-width: 280px;
+    min-height: 15px;
+}
+
+.new-msg-container.minimize form{
+    display: none;
+}
+
+/* fullscreen Mode*/
+.new-msg-container.fullscreen{
     position: fixed;
     background-color: rgba(0,0,0,.5);
     inset: 0;
-    margin: 2em;
-    padding: 2em;
-    border-radius: 1em;
-    height: 90vh;
+    border-radius: 0;
+    height: 100vh;
+    max-width: 100%;
 }
 
-form{
-    height: 70vh
+.new-msg-container.fullscreen .header-new-msg{
+    margin: 70px 200px 0px 200px;
 }
 
-
-*/
-
+.new-msg-container.fullscreen form{
+    margin: 0px 200px 70px 200px;
+}
 
 .header-new-msg{
     display: flex;
@@ -69,9 +87,8 @@ form{
     border-color: none;
     border-bottom: 1px solid #F6F8FC;
     padding: 10px;
-    /* height: 70vh; fullscreen mode*/
-    border-radius: 0px 0px 8px 8px;
 }
+
 
 input{
     width: 100%;

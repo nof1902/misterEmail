@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 
 export function EmailSort({ sortBy, onSetSort }) {
     
-    
     const [sortByToEdit, setSortByToEdit] = useState(sortBy)
 
     useEffect(() => {
@@ -10,16 +9,16 @@ export function EmailSort({ sortBy, onSetSort }) {
     },[sortByToEdit])
 
     function handleChange({ target }) {
-        const { name: field, value } = target;
-        setSortByToEdit(prevSort => ({ ...prevSort, [field]: value }));
+        let { name: field, value } = target;
+        setSortByToEdit(prevSort => ({ ...prevSort, [field]: value }))
     }
 
     return (
-        <form className="email-sort">
-            <select name="sortField" onChange={handleChange} >
+        <form className="email-sort"> 
+            <select name="fieldToSort" onChange={handleChange} >
                 <option value="">Select Field</option>
-                <option value="true">Title</option>
-                <option value="true">Date</option>
+                <option value="subject">Subject</option>
+                <option value="date">Date</option>
                 {/* <option value="from">From</option>
                 <option value="subject">Subject</option> */}
             </select>
@@ -29,6 +28,7 @@ export function EmailSort({ sortBy, onSetSort }) {
                 <option value="asc">Ascending</option>
                 <option value="desc">Descending</option>
             </select>
+            {/* <button>Sort</button> */}
         </form>
     )
 

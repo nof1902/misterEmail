@@ -4,7 +4,7 @@ import { useParams, NavLink, Link } from "react-router-dom"
 
 export function SideBar({ }) {
 
-    const params = useParams();
+    const params = useParams()
 
     const navItems = [
         {
@@ -32,15 +32,13 @@ export function SideBar({ }) {
             title: 'Trash',
             icon: (<Trash2 size={20} strokeWidth={1.5}/>)
         },
-
-    ];
+    ]
 
     return (
         <nav className="app-sidebar">
             <ul>
                 <li className='compose'>
-                    {/* button */}
-                    <Link to={`/emails/${params.folder}/new`}>
+                    <Link to={`/emails/${params.folder}/:compose=new`}>
                         <Pencil size={20} strokeWidth={1.5}/>
                         <span>Compose</span>  
                     </Link>

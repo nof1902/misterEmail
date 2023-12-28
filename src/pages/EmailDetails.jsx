@@ -5,9 +5,9 @@ import { ArrowLeft, Trash2} from 'lucide-react'
 
 export function EmailDetails()
 {
-    const [email, setEmail] = useState(null);
-    const navigate = useNavigate();
-    const { folder, id } = useParams();
+    const [email, setEmail] = useState(null)
+    const navigate = useNavigate()
+    const { folder, id } = useParams()
     const { onRemoveEmail, onUpdateEmail} = useOutletContext()
 
     useEffect(() => {
@@ -19,16 +19,16 @@ export function EmailDetails()
             let email = await emailService.getById(id)
             email.isRead = true
             onUpdateEmail(email)
-            setEmail(email);
+            setEmail(email)
         } catch (error) {
-            onBack();
+            onBack()
             console.log('error:', error)
         }
     }
 
     async function onHandleRemoveEmail(emailId) {
-        onRemoveEmail(emailId);
-        onBack();
+        onRemoveEmail(emailId)
+        onBack()
     }
 
     function onBack() {
@@ -48,7 +48,7 @@ export function EmailDetails()
             </section>
             <section className="body-page">
                 <p className="body-of-email">{email.body}</p>
-                <p className="email-data">this email sent from {'<' +email.from + '>'} at {email.sentAt} to {email.to}</p>
+                {/* <p className="email-data">this email sent from {'<' +email.from + '>'} at {email.sentAt} to {email.to}</p> */}
             </section>
         </section>
         

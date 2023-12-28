@@ -1,38 +1,43 @@
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
+import { faker } from '@faker-js/faker';
+
+const EMAIL_COUNT = 10;
 
 export const emailService = {
     query,
     save,
     remove,
     getById,
-    createEmail,
+    getDefaultEmail,
     getDefaultFilter,
     getLoggedInUser,
     getFilterFromParams,
-    getDefaultSort
+    getDefaultSort,
+    getDefaultScreenState,
+    getFilterSortParams
 }
 
 const STORAGE_KEY = 'emails'
 
-// localStorage.clear();
+// localStorage.clear()
  _createEmails()
 
 async function query(filterBy,folder,sortBy) {
     let emails = await storageService.query(STORAGE_KEY);
 
     switch (folder) {
-        case 'starred':
-            emails = emails.filter(email => !email.removedAt && email.isStarred);
-            break;
-        case 'sent':
-            emails = emails.filter(email => email.from === getLoggedInUser().email && !email.removedAt);
-            break;
         case 'trash':
             emails = emails.filter(email => email.removedAt);
             break;
         case 'inbox':
-            emails = emails.filter(email => email.from !== getLoggedInUser().email && !email.removedAt);
+            emails = emails.filter(email => email.to === getLoggedInUser().email && !email.removedAt);
+            break;
+        case 'starred':
+            emails = emails.filter(email => !email.removedAt && email.isStarred);
+            break;
+        case 'sent':
+            emails = emails.filter(email => email.to !== getLoggedInUser().email && !email.removedAt);
             break;
         case 'draft':
             emails = emails.filter(email => email.from === getLoggedInUser().email && !email.sentAt && !email.removedAt);
@@ -43,19 +48,26 @@ async function query(filterBy,folder,sortBy) {
     }
 
     // const emailCount = emails.length;
-    
-    if(sortBy.date)
+
+    if(sortBy.fieldToSort === 'date')
     {
         emails.sort((a, b) =>
-            (sortBy.order === 'asc') ? a.sentAt - b.sentAt : b.sentAt - a.sentAt
+            (sortBy.sortOrder === 'asc') ? new Date(a.sentAt) - new Date(b.sentAt) : new Date(b.sentAt) - new Date(a.sentAt)
         );
     }
 
-    if(sortBy.title)
+    if(sortBy.fieldToSort === 'subject')
     {  
-        emails.sort((a, b) =>
-            sortBy.order === 'asc' ? a.title - b.title : b.title - a.title
-        );
+        emails.sort((a, b) => {
+            const subjectA = a.subject.toLowerCase();
+            const subjectB = b.subject.toLowerCase();
+    
+            if (sortBy.sortOrder === 'asc') {
+                return subjectA.localeCompare(subjectB);
+            } else {
+                return subjectB.localeCompare(subjectA);
+            }
+        });
     }
 
     
@@ -80,7 +92,6 @@ async function query(filterBy,folder,sortBy) {
 
         return emails;
     }
-    
 }
 
 
@@ -93,22 +104,24 @@ function remove(id) {
 }
 
 function save(emailToSave) {
+    // put new data when send
+    emailToSave.sentAt = new Date();
     if (emailToSave.id) {
         return storageService.put(STORAGE_KEY, emailToSave)
     } else {
-        emailToSave.isOn = false
+        // emailToSave.isOn = false
         return storageService.post(STORAGE_KEY, emailToSave)
     }
 }
 
-function createEmail(from = '', to ='', subject='', body='') {
+function getDefaultEmail(from = '', to ='', subject='', body='') {
     return {
             id: '',
             subject: subject,
             body: body,
             isRead: false,
             isStarred: false,
-            sentAt : null,
+            sentAt : _generateRandomDate(new Date(2023, 1, 1), new Date()),
             removedAt : null,
             from: from,
             to: to
@@ -127,13 +140,18 @@ function getDefaultFilter() {
 
 function getDefaultSort() {
     return {
-        date: null,
-        title: null,
-        order:''
+        fieldToSort:'',
+        sortOrder:''
     }
 }
 
-
+function getDefaultScreenState() {
+    return {
+        fullscreen: null,
+        minimize: null,
+        normal: true
+    }
+}
 
 function getLoggedInUser()
 {
@@ -143,30 +161,64 @@ function getLoggedInUser()
    }
 }
 
+
 function _createEmails() {
-    let emails = utilService.loadFromStorage(STORAGE_KEY)
-    if (!emails || !emails.length) {
-        emails = [
-            {
-                id: 'e1', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
-                sentAt : 'Jun 15', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
-            },
-            {
-                id: 'e2', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
-                sentAt : 'Sep 20', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
-            },
-            {
-                id: 'e3', subject: 'new discounts', body: 'new discounts', isRead: false, isStarred: false,
-                sentAt : 'Jun 2', removedAt : null, from: 'eBay', to: 'user@appsus.com'
-            },
-            {
-                id: 'e4', subject: 'Security alert', body: 'Your Google Account was just in to form', isRead: false, isStarred: false,
-                sentAt : 'Dec 24', removedAt : null, from: 'Google', to: 'user@appsus.com'
-            }
-        ]
+    let emails = utilService.loadFromStorage(STORAGE_KEY) || []
+    
+    if (!emails.length) {
+        emails = _generateEmails(EMAIL_COUNT, emails)
         utilService.saveToStorage(STORAGE_KEY, emails)
     }
 }
+
+function _generateEmails(count, emails) {
+    for (let i = 0; i < count; i++) {
+        const email = _createSingleEmail()
+        emails.push(email)
+    }
+    return emails
+}
+
+function _createSingleEmail() {
+    
+    const email = getDefaultEmail()
+    email.id = utilService.makeId()
+    email.subject = faker.lorem.sentence()
+    email.body = faker.lorem.paragraphs(1)
+    
+    if (Math.random() > 0.4) {
+        // Generate sent emails
+        email.from = getLoggedInUser().email
+        email.to = faker.internet.email()
+    } else {
+        // Generate inbox emails
+        email.from = faker.internet.email()
+        email.to = getLoggedInUser().email
+    }
+
+    email.isRead = Math.random() > 0.8
+    email.isStarred = Math.random() > 0.8
+
+    return email
+}
+
+function _generateRandomDate(from, to) {
+    return new Date(
+      from.getTime() +
+        Math.random() * (to.getTime() - from.getTime()),
+    )
+  }
+
+
+function getFilterSortParams(searchParams){
+    let defaultSort = getDefaultSort()
+    const sortBy = {}
+    for(const field in defaultSort){
+        sortBy[field] = searchParams.get(field) || defaultSort[field]
+    }
+    return sortBy
+}
+
 
 function getFilterFromParams(searchParams) {
     const defaultFilter = getDefaultFilter()

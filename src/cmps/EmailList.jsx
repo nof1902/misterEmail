@@ -1,4 +1,4 @@
-import { EmailPreview } from "./EmailPreview";
+import { EmailPreview } from "./EmailPreview"
 
 
 export function EmailList({ emails, onRemoveEmail,onUpdateEmail }) {
@@ -10,5 +10,3 @@ export function EmailList({ emails, onRemoveEmail,onUpdateEmail }) {
         </ul>
     )
 }
-
-// li inside EmailPreview - if have problems use react fragments

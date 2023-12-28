@@ -3,7 +3,7 @@
     min-height: 100vh;
     min-width: 100vw;
     display: grid;
-    grid-template-rows: 57px 1fr;
+    grid-template-rows: 70px 1fr;
     grid-template-columns: minmax(200px, 230px) 1fr;
     grid-template-areas: 
     "h h"
@@ -12,7 +12,6 @@
 
 .mail-app header {
     grid-area: h;
-
 }
 
 .mail-app aside{

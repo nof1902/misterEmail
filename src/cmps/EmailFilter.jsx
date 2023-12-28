@@ -9,23 +9,23 @@ export function EmailFilter({ filterBy, onSetFilter }) {
     },[filterByToEdit])
 
     function handleChange({ target }) {
-        let { name: field, value } = target;
+        let { name: field, value } = target
         
         switch(value) {
             case 'all':
-                value = null;
+                value = null
                 break;
             case 'read':
-                value = true;
+                value = true
                 break;
             case 'unread':
-                value = false;
-                break;
+                value = false
+                break
             default:
-                break;
+                break
         }
 
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }));
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
     }
 
     return (

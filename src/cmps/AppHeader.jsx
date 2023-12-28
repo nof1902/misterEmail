@@ -13,31 +13,30 @@ export function AppHeader({ filterBy, onSetFilter }) {
 
     function handleChange({ target }){
         const { name: field, value } = target;
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }));
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
     }
     
     return (
         <header className="app-header">
-            <section className='logo'>
-                <section className='button-marg'>
-                    <AlignJustify />
-                </section>
-                <img src={imgUrlGmailLogo} alt='gmail logo'></img>
+            <section className='button-marg'>
+                <AlignJustify />
             </section>
-            <form className="text-filter">
-                <section className="input-icon-container">
-                        <input className="text-input" 
-                                onChange={handleChange} 
-                                id="textSearch" 
-                                name="textSearch" 
-                                type="text" 
-                                value={filterByToEdit.textSearch} 
-                                /* the value displayed in the input will 
-                                always be the value in the component's state, 
-                                and updating that state will update the input display. */
-                                placeholder="Search email..." />
-                        <Search />
-                </section>
+            <img src={imgUrlGmailLogo} alt='gmail logo'></img>
+            <form className="search-container">
+                <button className='search-btn'>
+                    <Search size={20}/>
+                </button>
+                <input className="search-input" 
+                        onChange={handleChange} 
+                        id="textSearch" 
+                        name="textSearch" 
+                        type="text" 
+                        value={filterByToEdit.textSearch} 
+                        /* the value displayed in the input will 
+                        always be the value in the component's state, 
+                        and updating that state will update the input display. */
+                        placeholder="Search email..." 
+                        />
             </form>
         </header>
     )

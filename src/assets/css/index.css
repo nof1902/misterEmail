@@ -5,21 +5,21 @@
 @import "basics/animations.css";
 
 /* Pages */
-@import "./pages/home-pase.css";
-@import "./pages/about-us.css";
-@import "./pages/email-details.css";
-@import "./pages/emailindex.css";
-@import "./pages/emailfilter.css";
-@import "./pages/user-msg.css";
-@import "./pages/emailsort.css";
+@import "./pages/HomePage.css";
+@import "./pages/AboutUs.css";
+@import "./pages/EmailDetails.css";
+@import "./pages/EmailIndex.css";
 
 /* Components */
-@import "./cmps/app-header.css";
-@import "./cmps/app-footer.css";
-@import "./cmps/app-toolbar.css";
-@import "./cmps/email-list.css";
-@import "./cmps/email-preview.css";
-@import "./cmps/email-compose.css";
+@import "./cmps/AppHeader.css";
+@import "./cmps/AppFooter.css";
+@import "./cmps/SideBar.css";
+@import "./cmps/EmailFilter.css";
+@import "./cmps/EmailSort.css";
+@import "./cmps/EmailList.css";
+@import "./cmps/EmailPreview.css";
+@import "./cmps/EmailCompose.css";
+@import "./cmps/UserMsg.css";
 
 
 
