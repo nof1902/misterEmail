@@ -74,7 +74,6 @@ export function EmailCompose(){
 
     console.log(screenModeClass)
 
-
     // email that is is being composed is auto saved every 5
     // seconds and can be viewed in the draft folder until sent 
 

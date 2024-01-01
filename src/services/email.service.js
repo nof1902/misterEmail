@@ -83,10 +83,10 @@ async function query(searchBy,folder) {
         const { textSearch = '', isRead} = searchBy;
 
         switch (isRead) {
-            case true:
+            case 'true':
                 emails = emails.filter(email => email.isRead === true);
                 break;
-            case false:
+            case 'false':
                 emails = emails.filter(email => email.isRead === false);
                 break;
             default:

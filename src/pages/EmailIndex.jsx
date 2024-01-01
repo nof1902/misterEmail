@@ -12,19 +12,12 @@ export function EmailIndex() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [emails, setEmails] = useState(null)
     const params = useParams()
-    // const [filterBy, setFilterBy] = useState(emailService.getFilterFromParams(searchParams))
-    // const [sortBy, setSortBy] = useState(emailService.getDefaultSort(searchParams))
     const [searchBy, setSearchBy] = useState(emailService.getDefaultSearch(searchParams))
 
     useEffect(() => {
         setSearchParams(searchBy)
         loadEmail()
     },[searchBy,params.folder,params.new])
-
-    // useEffect(() => {
-    //     setSearchParams(filterBy,sortBy)
-    //     loadEmail()
-    // },[filterBy,params.folder,params.new,sortBy])
 
     async function loadEmail() {
         try{
@@ -82,14 +75,6 @@ export function EmailIndex() {
         setSearchBy(prevSearch => ({ ...prevSearch, ...searchBy }))
     }
 
-    // function onSetFilter(filterBy) {
-    //     setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
-    // }
-
-    // function onSetSort(sortBy) {
-    //     setSortBy(prevSort => ({ ...prevSort, ...sortBy }))
-    // }
-
     function onToggleStar(emailId) {
         if(params.folder === 'starred'){
             setEmails((prevEmail) => prevEmail.filter(email => email.id !== emailId))
@@ -98,8 +83,6 @@ export function EmailIndex() {
 
     const {textSearch, isRead, date, fieldToSort, sortOrder} = searchBy
 
-    // const {textSearch, isRead} = filterBy
-    // const {fieldToSort, sortOrder} = sortBy
     if (!emails) return <div>Loading...</div>
     
     return (
@@ -126,3 +109,26 @@ export function EmailIndex() {
         </section>
     )
 }
+
+
+/* 
+
+    // const [filterBy, setFilterBy] = useState(emailService.getFilterFromParams(searchParams))
+    // const [sortBy, setSortBy] = useState(emailService.getDefaultSort(searchParams))
+
+     // useEffect(() => {
+    //     setSearchParams(filterBy,sortBy)
+    //     loadEmail()
+    // },[filterBy,params.folder,params.new,sortBy])
+
+    // function onSetFilter(filterBy) {
+    //     setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
+    // }
+
+    // function onSetSort(sortBy) {
+    //     setSortBy(prevSort => ({ ...prevSort, ...sortBy }))
+    // }
+   // const {textSearch, isRead} = filterBy
+    // const {fieldToSort, sortOrder} = sortBy
+
+*/

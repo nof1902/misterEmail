@@ -1,42 +1,16 @@
-import { useEffect, useState } from "react"
+import { useForm } from "../customHooks/useForm"
 
 export function EmailFilter({ searchBy, onSetSearch }) {
     
-    const [filterByToEdit, setFilterByToEdit] = useState(searchBy)
-    
-    useEffect(() => {
-        onSetSearch(filterByToEdit)
-    },[filterByToEdit])
-
-    function handleChange({ target }) {
-        let { name: field, value } = target
-        
-        switch(value) {
-            case 'all':
-                value = null
-                break;
-            case 'read':
-                value = true
-                break;
-            case 'unread':
-                value = false
-                break
-            default:
-                break
-        }
-
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
-    }
+    const [filterByToEdit, setFilterByToEdit] = useForm(searchBy , onSetSearch)
 
     return (
         <form className="email-filter">
-            <select onChange={handleChange} id="isRead" name="isRead">
-                <option value="all">All</option>
-                <option value="read">Read</option>
-                <option value="unread">Unread</option>
+            <select name="isRead" onChange={setFilterByToEdit}>
+                <option value={undefined}>All</option>
+                <option value={true}>Read</option>
+                <option value={false}>Unread</option>
             </select>
         </form>
     )
-
-   
 }
