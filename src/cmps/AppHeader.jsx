@@ -3,12 +3,12 @@ import { Search, AlignJustify } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 
-export function AppHeader({ filterBy, onSetFilter }) {
+export function AppHeader({ searchBy, onSetSearch }) {
     
-    const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+    const [filterByToEdit, setFilterByToEdit] = useState(searchBy)
 
     useEffect(() => {
-        onSetFilter(filterByToEdit)
+        onSetSearch(filterByToEdit)
     },[filterByToEdit])
 
     function handleChange({ target }){

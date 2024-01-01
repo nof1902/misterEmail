@@ -12,20 +12,27 @@ export function EmailIndex() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [emails, setEmails] = useState(null)
     const params = useParams()
-    const [filterBy, setFilterBy] = useState(emailService.getFilterFromParams(searchParams))
-    const [sortBy, setSortBy] = useState(emailService.getDefaultSort(searchParams))
+    // const [filterBy, setFilterBy] = useState(emailService.getFilterFromParams(searchParams))
+    // const [sortBy, setSortBy] = useState(emailService.getDefaultSort(searchParams))
+    const [searchBy, setSearchBy] = useState(emailService.getDefaultSearch(searchParams))
 
     useEffect(() => {
-        setSearchParams(filterBy)
+        setSearchParams(searchBy)
         loadEmail()
-    },[filterBy,params.folder,params.new,sortBy])
+    },[searchBy,params.folder,params.new])
+
+    // useEffect(() => {
+    //     setSearchParams(filterBy,sortBy)
+    //     loadEmail()
+    // },[filterBy,params.folder,params.new,sortBy])
 
     async function loadEmail() {
         try{
-            const emails = await emailService.query(filterBy,params.folder,sortBy)
+            const emails = await emailService.query(searchBy,params.folder)
             setEmails(emails)
         } catch(error){
-            console.log('Had issues loading emails', error)
+            showErrorMsg('Could Not Loading Emails')
+            console.log('error:', error)
         }
     }
 
@@ -36,8 +43,8 @@ export function EmailIndex() {
                 showSuccessMsg('Conversation Deleted Forever')
             } else {
                 const emailToRemove = await emailService.getById(emailId)
-                emailToRemove.removedAt = Date.now();
-                await emailService.save(emailToRemove);
+                emailToRemove.removedAt = Date.now()
+                await emailService.save(emailToRemove)
                 showSuccessMsg('Conversation moved to Trash')
             }
             setEmails((prevEmail) => prevEmail.filter(email => email.id !== emailId))
@@ -53,7 +60,9 @@ export function EmailIndex() {
             setEmails((prevEmails) => prevEmails.map( email => {
                 return email.id === mailToUpdate.id ? updatedEmail : email
             }))
+            
         } catch(error) {
+            showErrorMsg('Could Not Update Email')
             console.log('error:', error)
         }
     }
@@ -62,39 +71,55 @@ export function EmailIndex() {
         try{
             const addedEmail = await emailService.save(emailToAdd)
             setEmails((prevEmails) => [...prevEmails,addedEmail])
+            showSuccessMsg('Email Send Successfully')
         } catch(error){
+            showErrorMsg('Could Not Add Email')
             console.log('error:', error)
         }
     }
 
-    function onSetFilter(filterBy) {
-        setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
+    function onSetSearch(searchBy){
+        setSearchBy(prevSearch => ({ ...prevSearch, ...searchBy }))
     }
 
-    function onSetSort(sortBy) {
-        setSortBy(prevSort => ({ ...prevSort, ...sortBy }))
+    // function onSetFilter(filterBy) {
+    //     setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
+    // }
+
+    // function onSetSort(sortBy) {
+    //     setSortBy(prevSort => ({ ...prevSort, ...sortBy }))
+    // }
+
+    function onToggleStar(emailId) {
+        if(params.folder === 'starred'){
+            setEmails((prevEmail) => prevEmail.filter(email => email.id !== emailId))
+        }
     }
 
-    
-    const {textSearch, isRead} = filterBy
-    const {fieldToSort, sortOrder} = sortBy
+    const {textSearch, isRead, date, fieldToSort, sortOrder} = searchBy
+
+    // const {textSearch, isRead} = filterBy
+    // const {fieldToSort, sortOrder} = sortBy
     if (!emails) return <div>Loading...</div>
     
     return (
         <section className='mail-app'>
             <header>
-                <AppHeader filterBy={{ textSearch }} onSetFilter={onSetFilter}/>
+                <AppHeader searchBy={{ textSearch }} onSetSearch={onSetSearch}/>
             </header>
             <aside>
                 <SideBar currentNav={params.folder}/>
             </aside>
             <section className="main">
-                <EmailFilter filterBy={{ isRead }} onSetFilter={onSetFilter}/>
-                <EmailSort sortBy={{ fieldToSort, sortOrder }} onSetSort={onSetSort}/>
-                {!params.id && <EmailList 
+                <section className="email-search-bar">
+                    <EmailFilter searchBy={{ isRead }} onSetSearch={onSetSearch}/>
+                    <EmailSort searchBy={{ fieldToSort, sortOrder }} onSetSearch={onSetSearch}/>
+                </section>
+                {!params.id && <EmailList className="emails"
                     emails={emails} 
                     onRemoveEmail={onRemoveEmail}
                     onUpdateEmail={onUpdateEmail}
+                    onToggleStar={onToggleStar}
                     />}
                 <Outlet context={{onAddEmail , onUpdateEmail, onRemoveEmail}}/> 
             </section>

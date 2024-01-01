@@ -9,8 +9,8 @@ export function AboutUs() {
                      at veritatis adipisci alias corrupti quia incidunt. Et hic optio voluptas nesciunt laudantium voluptate. Quas, quod explicabo.
                     Lorem ipsum dolor sit amet  temporibus porro pariatur totam hic. Nobis,
                     cupiditate veritatis? Similique cum corporis tempore?</p>
-                <Link className="link-button start-app" to="/emails/inbox">To Mail APP</Link>
-                <Link className="link-button back" to="/">Back</Link>
+                <Link className="start-app" to="/emails/inbox">To Mail APP</Link>
+                <Link className="back" to="/">Back</Link>
         </section>
     )
 }

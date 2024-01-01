@@ -10,20 +10,27 @@ export const emailService = {
     remove,
     getById,
     getDefaultEmail,
-    getDefaultFilter,
+    
     getLoggedInUser,
-    getFilterFromParams,
-    getDefaultSort,
+
     getDefaultScreenState,
-    getFilterSortParams
+
+    getDefaultSearchOptions,
+    getDefaultSearch
 }
 
 const STORAGE_KEY = 'emails'
 
+
+/* getDefaultFilter,
+    getFilterFromParams,
+    getDefaultSort,
+    getFilterSortParams, */
+
 // localStorage.clear()
  _createEmails()
 
-async function query(filterBy,folder,sortBy) {
+async function query(searchBy,folder) {
     let emails = await storageService.query(STORAGE_KEY);
 
     switch (folder) {
@@ -49,20 +56,20 @@ async function query(filterBy,folder,sortBy) {
 
     // const emailCount = emails.length;
 
-    if(sortBy.fieldToSort === 'date')
+    if(searchBy.fieldToSort === 'date')
     {
         emails.sort((a, b) =>
-            (sortBy.sortOrder === 'asc') ? new Date(a.sentAt) - new Date(b.sentAt) : new Date(b.sentAt) - new Date(a.sentAt)
+            (searchBy.sortOrder === 'asc') ? new Date(a.sentAt) - new Date(b.sentAt) : new Date(b.sentAt) - new Date(a.sentAt)
         );
     }
 
-    if(sortBy.fieldToSort === 'subject')
+    if(searchBy.fieldToSort === 'subject')
     {  
         emails.sort((a, b) => {
             const subjectA = a.subject.toLowerCase();
             const subjectB = b.subject.toLowerCase();
     
-            if (sortBy.sortOrder === 'asc') {
+            if (searchBy.sortOrder === 'asc') {
                 return subjectA.localeCompare(subjectB);
             } else {
                 return subjectB.localeCompare(subjectA);
@@ -71,9 +78,9 @@ async function query(filterBy,folder,sortBy) {
     }
 
     
-    if(!filterBy) return emails;
+    if(!searchBy) return emails;
     else{
-        const { textSearch = '', isRead} = filterBy;
+        const { textSearch = '', isRead} = searchBy;
 
         switch (isRead) {
             case true:
@@ -129,21 +136,21 @@ function getDefaultEmail(from = '', to ='', subject='', body='') {
 }
 
 
-function getDefaultFilter() {
-    return {
-        status: '',
-        textSearch: '',
-        isRead: null,
-        date: ''
-    }
-}
+// function getDefaultFilter() {
+//     return {
+//         status: '',
+//         textSearch: '',
+//         isRead: null,
+//         date: ''
+//     }
+// }
 
-function getDefaultSort() {
-    return {
-        fieldToSort:'',
-        sortOrder:''
-    }
-}
+// function getDefaultSort() {
+//     return {
+//         fieldToSort:'',
+//         sortOrder:''
+//     }
+// }
 
 function getDefaultScreenState() {
     return {
@@ -210,23 +217,33 @@ function _generateRandomDate(from, to) {
   }
 
 
-function getFilterSortParams(searchParams){
-    let defaultSort = getDefaultSort()
-    const sortBy = {}
-    for(const field in defaultSort){
-        sortBy[field] = searchParams.get(field) || defaultSort[field]
+// function getFilterSortParams(searchParams){
+//     let defaultSort = getDefaultSort()
+//     const sortBy = {}
+//     for(const field in defaultSort){
+//         sortBy[field] = searchParams.get(field) || defaultSort[field]
+//     }
+//     return sortBy
+// }
+
+
+function getDefaultSearch(searchParams) {
+    const defaultFilter = getDefaultSearchOptions()
+    const searchBy = {}
+    for (const field in defaultFilter) {
+        searchBy[field] = searchParams.get(field) || defaultFilter[field]
     }
-    return sortBy
+    return searchBy
 }
 
-
-function getFilterFromParams(searchParams) {
-    const defaultFilter = getDefaultFilter()
-    const filterBy = {}
-    for (const field in defaultFilter) {
-        filterBy[field] = searchParams.get(field) || defaultFilter[field]
+function getDefaultSearchOptions() {
+    return {
+        textSearch: '',
+        isRead: null,
+        date: '',
+        fieldToSort:'',
+        sortOrder:''
     }
-    return filterBy
 }
 
 

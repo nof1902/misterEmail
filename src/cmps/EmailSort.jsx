@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 
-export function EmailSort({ sortBy, onSetSort }) {
+export function EmailSort({ searchBy, onSetSearch }) {
     
-    const [sortByToEdit, setSortByToEdit] = useState(sortBy)
+    const [sortByToEdit, setSortByToEdit] = useState(searchBy)
 
     useEffect(() => {
-        onSetSort(sortByToEdit)
+        onSetSearch(sortByToEdit)
     },[sortByToEdit])
 
     function handleChange({ target }) {

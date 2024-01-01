@@ -9,32 +9,99 @@
     cursor: pointer;
     background-color: #fff;
     flex-direction: row;
-}
-.email-preview h1{
-    font-weight: 700;
-}
 
-.email-preview.read h1{
-    font-weight: 380;
-}
+    h1{
+        font-weight: 700;
+    }
 
-.email-preview a {
-    color: inherit; /* Make the text color the same as the parent */
-    text-decoration: none; /* Remove underline from links */
-    display: flex;
-    flex-grow: 1; /* Allow it to fill the space */ 
-    align-items: center;
+    a{
+        color: inherit;
+        text-decoration: none;
+        display: flex;
+        flex-grow: 1; 
+        align-items: center;
+
+        .from{
+            margin-right: 15px;
+            margin-left: 15px;
+        }
+
+        .body{
+            margin-left: 30px;
+            flex-grow: 1;
+            font-weight: 200;
+        }
+
+        .subject {
+            text-overflow: ellipsis;
+        }
+
+        .sent-at {
+            color: grey;
+            margin-left: 15px;
+            margin-right: 10px;
+        }
+
+    }
+
+    .actions-email {
+        display: none;
+    }
 }
 
 .email-preview.read {
     font-weight: normal;
-    background-color: #F2F6FC; /* Background for Read emails */
+    background-color: #F2F6FC;
+
+    h1{
+        font-weight: 380;
+    }
+}
+
+.email-preview:hover {
+    transform:translateY(-3px);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.email-preview:hover .actions-email {
+    display: grid;
+    grid-template-columns: repeat(2,auto);
+    color: rgb(240, 195, 14);
+}
+
+/* For medium screens, slightly smaller max-width */
+@media screen and (max-width: 768px) {
+    .subject, .body {
+        max-width: 80%;
+    }
+}
+
+/* For small screens, significantly smaller max-width */
+@media screen and (max-width: 660px) {
+    .subject, .body {
+        max-width: 60%;
+    }
+}
+
+
+
+/* 
+.email-preview .actions-email {
+    display: none;
+}
+
+.email-preview a {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    flex-grow: 1; 
+    align-items: center;
 }
 
 .email-preview a .from {
     margin-right: 15px;
     margin-left: 15px;
-}
+} 
 
 .email-preview a .body{
     margin-left: 30px;
@@ -43,29 +110,21 @@
 }
 
 .email-preview a .subject {
-    text-overflow: ellipsis /*?works for 1 line text.*/
+    text-overflow: ellipsis;
 }
 
 .email-preview a .sent-at {
     color: grey;
     margin-left: 15px;
     margin-right: 10px;
-}
+} 
 
-.email-preview .actions-email {
-    display: none;
-}
+.email-preview.read h1{
+    font-weight: 380;
+} 
 
-.email-preview:hover {
-    transform:translateY(-3px);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
-}
+*/
 
-.email-preview:hover .actions-email {
-    display: grid;
-    grid-template-columns: repeat(2,auto);
-    color: rgb(240, 195, 14);
-}
 
 
 

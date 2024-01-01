@@ -3,6 +3,7 @@
     display: flex;
     padding: 5px;
     border-radius: 30px;
+    margin: 0;
 }
 
 .email-filter select {

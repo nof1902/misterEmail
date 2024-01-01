@@ -35,7 +35,7 @@ export function SideBar({ }) {
     ]
 
     return (
-        <nav className="app-sidebar">
+        <nav className="sidebar">
             <ul>
                 <li className='compose'>
                     <Link to={`/emails/${params.folder}/:compose=new`}>

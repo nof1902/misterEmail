@@ -1,7 +1,9 @@
 .about-us{
-  display: grid;
-  place-content: center;
-  place-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   text-align: center;
   background-color: #f2f2f2;
@@ -15,12 +17,30 @@
 
 .about-us p{
     font-size: 18px;
-    margin: 10px;
+    margin: 0.5rem;
     margin-bottom: 10px;
     max-width: 400px;
 }
 
-.about-us .link-button {
+.about-us a{
+  text-decoration: none;
+  margin: 0.5rem;
+  color: rgb(0, 0, 0);
+  border-radius: 50px;
+  width: fit-content;
+  background-color: #e4e7ebc1;
+  font-weight: 700;
+  padding: 1rem;
+  align-content: center;
+}
+
+.about-us a:hover{
+  background-color: #e4e7eb;
+  opacity: 1;
+  transition: color 0.3s;
+}
+
+/* .about-us .link-button {
   width: 150px;
   margin: 0.5rem;
   padding: 1rem 2rem;
@@ -46,4 +66,4 @@
   .about-us .back:hover {
     background-color: #007B9A;
     font-weight: 200;
-  }
+  } */

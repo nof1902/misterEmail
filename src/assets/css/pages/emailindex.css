@@ -8,22 +8,84 @@
     grid-template-areas: 
     "h h"
     "a m";
+
+    header {
+        grid-area: h;
+    }
+
+    aside{
+        grid-area: a;
+    }
+
+    .main {
+        grid-area: m;
+        border-radius: 30px;
+        width: 100%;
+        background-color: #ffffff;
+    }
+
+    .email-search-bar{
+        display: grid;
+        grid-template-columns: 100px 100px;
+    }
 }
 
-.mail-app header {
-    grid-area: h;
+
+/* For medium screens */
+@media screen and (max-width: 768px) {
+
+    .mail-app {
+        background-color: #F6F8FC;
+        min-height: 100vh;
+        min-width: 100vw;
+        grid-template-rows: 70px 1fr;
+        grid-template-columns: minmax(100px, 200px) 1fr;
+        grid-template-areas: 
+        "h h"
+        "a m";
+    }
+    
+        header {
+            grid-area: h;
+        }
+    
+        aside{
+            grid-area: a;
+        }
+    
+        .main {
+            grid-area: m;
+            border-radius: 30px;
+            width: 100%;
+            background-color: #ffffff;
+        }
+    
+        .email-search-bar{
+            display: grid;
+            grid-template-columns: 100px 100px;
+        }
+
 }
 
-.mail-app aside{
-    grid-area: a;
+/* For small screens */
+@media screen and (max-width: 660px) {
+    .mail-app {
+        background-color: #F6F8FC;
+        min-height: 100vh;
+        min-width: 100vw;
+        grid-template-rows: 70px 1fr;
+        grid-template-columns: minmax(50px, 100px) 1fr;
+        grid-template-areas: 
+        "h h"
+        "a m";
+    }
 }
 
-.mail-app .main {
-    grid-area: m;
-    border-radius: 30px;
-    width: 100%;
-    background-color: #ffffff;
-    margin: 0;
-    padding: 0;
-}
+
+
+
+
+
+
+
 
