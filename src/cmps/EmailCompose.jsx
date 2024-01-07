@@ -1,108 +1,182 @@
-import { useState, useEffect} from "react"
-import { useNavigate, useParams, useOutletContext, Link} from "react-router-dom"
-import { emailService } from '../services/email.service'
-import {X, Maximize2, Minimize2 ,Minus} from 'lucide-react'
+import { useState, useEffect, useRef } from "react"
+import {
+  useNavigate,
+  useParams,
+  useOutletContext,
+  Link,
+} from "react-router-dom"
+import { emailService } from "../services/email.service"
+import { X, Maximize2, Minimize2, Minus } from "lucide-react"
+import { useEffectUpdate } from "../customHooks/useEffectUpdate"
+import { useDebounce } from "../customHooks/useDebounce"
 
+export function EmailCompose() {
+  const [email, setEmail] = useState(emailService.getDefaultEmail())
+  const debouncedEmail = useDebounce(email)
+  const { onAddEmail, onUpdateEmail } = useOutletContext()
+  const navigate = useNavigate()
+  const params = useParams()
+  const [screenState, setScreenState] = useState({
+    isFull: false,
+    isMinimize: false
+  }) 
 
-export function EmailCompose(){
-    
-    const [email, setEmail] = useState(emailService.getDefaultEmail())
-    const [isMinimize, setIsMinimize] = useState(false) //false === normal
-    const [isFull,setIsFull] = useState(false); //false === normal
-    
-    const { onAddEmail, onUpdateEmail } = useOutletContext()
-    const navigate = useNavigate()
-    const params = useParams()
- 
-    // if exist ,load the prev
-    useEffect(() => {
-        if (params.id) loadEmail()
-    }, [])
+  useEffect(() => {
+    if (email.id) loadEmail()
+  }, [])
 
-    async function loadEmail() {
-        try {
-            const email = await emailService.getById(params.id)
-            setEmail(email)
-        } catch (err) {
-            navigate(`/emails/${params.folder}`)
-            console.log('Had issues loading email', err)
-        }
-    }
-
-    function handleChange({ target }){
-        let { name: field, value} = target
-        setEmail((prevEmail) => ({ ...prevEmail, [field]: value }))
-    }
-
-    async function handleSubmit(event) {
-        event.preventDefault();
-        try{
-            if(params.id) await onUpdateEmail(email)
-            else onAddEmail(email)
-        } catch {
-            console.log('error:', error)
-        }
+  useEffectUpdate(() => {
+    if (email.sentAt) {
+        onSaveEmail()
         navigate(`/emails/${params.folder}`)
     }
+  }, [email])
 
-    function onChangeScreenAttr({ target }){
-        const {name: field, value} = target
+//  help to limit re-render the component to many times - and prevent create several emails at once 
+  useEffectUpdate(() => {
+    onSaveEmail()
+  }, [debouncedEmail])
 
-        if(value === 'fullscreen' && !isFull){
-            setIsFull(true)
+  async function loadEmail() {
+    try {
+      const email = await emailService.getById(params.compose)
+      setEmail(email)
+
+    } catch (error) {
+      console.log("Had issues loading email", error)
+      showErrorMsg("Could Not Update Draft Emil")
+      navigate(`/emails/${params.folder}`)
+    }
+  }
+
+  function handleChange({ target }) {
+    let { name: field, value } = target;
+    setEmail((prevEmail) => ({ ...prevEmail, [field]: value }))
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    try {
+      setEmail((prevEmail) => ({ ...prevEmail, sentAt: new Date() }))
+    } catch (error) {
+      console.log("error:", error)
+    }
+  }
+
+  async function onSaveEmail() {
+    try {
+      if (email.id) {
+            await onUpdateEmail(email)
+            return;
         }
+        const { id } = await onAddEmail(email)
+        setEmail((prevEmail) => ({ ...prevEmail, id: id }))
+    } catch (error) {
+      console.log("Error on save:", error)
+    }
+  }
 
-        if(value === 'fullscreen' && isFull){
-            setIsFull(false)
-        }
+  function onChangeScreenAttr({ target }) {
+    const { value } = target;
 
-        if(value === 'minimize' && !isMinimize){
-            setIsMinimize(true)
-        }
-
-        if(value === 'minimize' && isMinimize){
-            setIsMinimize(false)
-        }
-    } 
-
-    let screenModeClass = ''
-    if (isFull) {
-        screenModeClass = 'fullscreen'
-    } else if (isMinimize) {
-        screenModeClass = 'minimize'
+    if (value === "fullscreen" && screenState.isFull === false) {
+        setScreenState(prevState => ({
+            ...prevState,
+            isFull: true
+          }))
     }
 
-    console.log(screenModeClass)
+    if (value === "fullscreen" && screenState.isFull === true) {
+        setScreenState(prevState => ({
+            ...prevState,
+            isFull: false
+          }))
+    }
 
-    // email that is is being composed is auto saved every 5
-    // seconds and can be viewed in the draft folder until sent 
+    if (value === "minimize" && !screenState.isMinimize) {
+        setScreenState(prevState => ({
+            ...prevState,
+            isMinimize: true
+          }))
+    }
 
-    return(
-        <section className={`new-msg-container ${screenModeClass}`}>
-            <section className="header-new-msg">
+    if (value === "minimize" && screenState.isMinimize) {
+        setScreenState(prevState => ({
+            ...prevState,
+            isMinimize: false
+          }))
+    }
+  }
+
+  let screenModeClass = ""
+
+  if (screenState.isFull) {
+    screenModeClass = "fullscreen"
+  } else if (screenState.isMinimize) {
+    screenModeClass = "minimize"
+  }
+
+  return (
+    <section className={`new-msg-container ${screenModeClass}`}>
+        <section className="new-msg-content">
+            <section className="new-msg-header">
                 <h1>New Message</h1>
-                <section className="actions">
+                <div></div>
                     <Link to={`/emails/${params.folder}`}>
                         <button className="close">
-                            <X size={12}/>
+                            <X size={12} />
                         </button>
                     </Link>
-                    <button className="fullscreen" name="fullscreen" value="fullscreen" onClick={onChangeScreenAttr}>
-                            {isFull ? <Minimize2 size={12}/> : <Maximize2 size={12}/>}
-                    </button>
-                    <button className="minimize" name="minimize" value="minimize" onClick={onChangeScreenAttr}>
-                            <Minus size={12}/>
-                    </button>
-                </section>
+                <button
+                    className="fullscreen"
+                    value="fullscreen"
+                    onClick={onChangeScreenAttr}
+                    >
+                    {screenState.isFull ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
+                </button>
+                <button
+                    className="minimize"
+                    value="minimize"
+                    onClick={onChangeScreenAttr}
+                    > <Minus size={12} />
+                </button>
             </section>
 
             <form className="the-msg" onSubmit={handleSubmit}>
-                <input id="from" placeholder="From" name="from" value={email.from} onChange={handleChange}></input>
-                <input id="to" placeholder="To" name="to" value={email.to} onChange={handleChange}></input>
-                <input id="subject" placeholder="Subject" name="subject" value={email.subject} onChange={handleChange}></input>
-                <textarea id="body" name="body" value={email.body} onChange={handleChange}></textarea>
-                <button type="submit" className="send">Send</button> 
+                <input
+                id="from"
+                name="from"
+                placeholder="From"
+                value={email.from}
+                onChange={handleChange}
+                ></input>
+                <input
+                id="to"
+                name="to"
+                placeholder="To"
+                value={email.to}
+                onChange={handleChange}
+                ></input>
+                <input
+                id="subject"
+                name="subject"
+                placeholder="Subject"
+                value={email.subject}
+                onChange={handleChange}
+                ></input>
+                <textarea
+                id="body"
+                name="body"
+                value={email.body}
+                onChange={handleChange}
+                ></textarea>
+                <button type="submit" className="send">
+                Send
+                </button>
             </form>
+        </section>
     </section>
-    )
+  )
 }
+
+

@@ -2,7 +2,7 @@
 import { File, Inbox, Pencil, SendHorizontal, Star, Trash2} from 'lucide-react'
 import { useParams, NavLink, Link } from "react-router-dom"
 
-export function SideBar({ }) {
+export function SideBar({ composeEmailId = {} }) {
 
     const params = useParams()
 
@@ -34,11 +34,14 @@ export function SideBar({ }) {
         },
     ]
 
+    // console.log(params)
+
     return (
         <nav className="sidebar">
             <ul>
                 <li className='compose'>
-                    <Link to={`/emails/${params.folder}/:compose=new`}>
+                    <Link to={`/emails/${params.folder}/compose?=new`}>
+                    {/* <Link to={`/emails/${params.folder}/compose?=${composeEmailId ? composeEmailId : 'new'}`}> */}
                         <Pencil size={20} strokeWidth={1.5}/>
                         <span>Compose</span>  
                     </Link>

@@ -2,79 +2,51 @@
 .new-msg-container{
     position: fixed;
     bottom: 0;
-    left: 60%;
+    left: 20%;
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: minmax(5%,10%) 1fr;
     grid-template-columns: auto;
-    background-color: #F6F8FC;
+    background-color: #ffffff;
+    width: 32%;
+    max-width: 32%;
+    min-width: 30%;
+    padding: 0;
+    
+    height: 55%;
+    min-height: 55%;
+    max-height: 55%;
+
     border: 1px solid #e9e8e8; 
     box-shadow: 0px 4px 6px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    min-width: 450px;
-    max-width: 500px;
-    min-height: 430px;
     border-bottom: none;
 }
 
-/* minimize Mode*/
-.new-msg-container.minimize .header-new-msg{
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
-}
-
-.new-msg-container.minimize{
-    position: fixed;
-    min-width: 280px;
-    min-height: 15px;
-}
-
-.new-msg-container.minimize form{
-    display: none;
-}
-
-/* fullscreen Mode*/
-.new-msg-container.fullscreen{
-    position: fixed;
-    background-color: rgba(0,0,0,.5);
-    inset: 0;
-    border-radius: 0;
-    height: 100vh;
-    max-width: 100%;
-}
-
-.new-msg-container.fullscreen .header-new-msg{
-    margin: 70px 200px 0px 200px;
-}
-
-.new-msg-container.fullscreen form{
-    margin: 0px 200px 70px 200px;
-}
-
-.header-new-msg{
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
+.new-msg-content .new-msg-header{
+    display: grid;
+    grid-template-columns: max-content 1fr repeat(3,minmax(0.01rem,0.8rem));
     background: #F6F8FC;
-    padding: 10px;
+    padding: 0.5rem;
     border-radius: 8px 8px 0px 0px;
+    gap: 0.5rem;
+    width: 100%;
+    height: fit-content;
 }
 
-.header-new-msg h1{
-    margin-left: 5px;
-    font-size: 18px;
+.new-msg-content .new-msg-header h1{
+    font-size: 1rem;
 }
-.header-new-msg button {
+
+.new-msg-content .new-msg-header button,
+.new-msg-content .new-msg-header a{
     all: unset;
     cursor: pointer;
-    padding: 3px;
-
+    justify-self: end;
 }
 
 /* the message */
-form{
+.new-msg-content form{
+    height: 45vh;
     display: grid;
     grid-template-rows: repeat(3 ,auto) 1fr auto;
     grid-template-columns: 1fr;
@@ -90,7 +62,7 @@ form{
 }
 
 
-input{
+.new-msg-content form input{
     width: 100%;
     grid-area: "i";
     border: none;
@@ -98,14 +70,14 @@ input{
     margin-left: 5px;
 }
 
-textarea{
+.new-msg-content form textarea{
     width: 100%;
     height: 100%;
     border: none;
 }
 
  /* send - btn */
-.send{
+.new-msg-content form .send{
     grid-area: b;
     background-color: #007bff; 
     color: white;
@@ -116,4 +88,70 @@ textarea{
     max-width: 60px;
     margin: 10px 0px;
 }
+
+@media (min-width: 601px) and (max-width: 800px) {
+    .new-msg-container {
+        padding: 0.01rem;
+        width: 100%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 600px) {
+    .new-msg-container {
+        position: fixed;
+        margin: 20% 10% 20%;
+        inset: 0;
+        border-radius: 0;
+        width: 100%;
+        max-width: 70%;
+    }
+}
+
+/* minimize Mode*/
+.new-msg-container.minimize form{
+    display: none;
+}
+
+.new-msg-container.minimize{
+    grid-template-rows: auto;
+}
+
+.new-msg-container.minimize .new-msg-header{
+    bottom: 0;
+}
+
+
+
+/* fullscreen Mode*/
+.new-msg-container.fullscreen{
+    position: fixed;
+    display: grid;
+    grid-template-rows: 1fr auto 1fr; 
+    grid-template-columns: 1fr;
+    inset: 0;
+    border-radius: 0;
+    background-color: #F6F8FC;
+    background-color: rgba(0,0,0,.5);
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    z-index: 2;
+}
+
+.new-msg-container.fullscreen .new-msg-content{
+    display: grid;
+    grid-template-rows: 20% minmax(10%,auto) 1fr 20%;
+    grid-template-columns: 20% 1fr 20%;
+}
+
+.new-msg-container.fullscreen .new-msg-content .new-msg-header{
+    grid-area: 2/2/2/3;
+}
+
+.new-msg-container.fullscreen .new-msg-content form{
+    grid-area: 3/2/3/3;
+}
+
+
 

@@ -38,6 +38,7 @@ export function AppHeader({ searchBy, onSetSearch }) {
                         placeholder="Search email..." 
                         />
             </form>
+            <div></div>
         </header>
     )
 }

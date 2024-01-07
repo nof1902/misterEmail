@@ -10,22 +10,13 @@ export const emailService = {
     remove,
     getById,
     getDefaultEmail,
-    
     getLoggedInUser,
-
     getDefaultScreenState,
-
     getDefaultSearchOptions,
     getDefaultSearch
 }
 
 const STORAGE_KEY = 'emails'
-
-
-/* getDefaultFilter,
-    getFilterFromParams,
-    getDefaultSort,
-    getFilterSortParams, */
 
 // localStorage.clear()
  _createEmails()
@@ -44,10 +35,10 @@ async function query(searchBy,folder) {
             emails = emails.filter(email => !email.removedAt && email.isStarred);
             break;
         case 'sent':
-            emails = emails.filter(email => email.to !== getLoggedInUser().email && !email.removedAt);
+            emails = emails.filter(email => !email.removedAt && email.sentAt);
             break;
         case 'draft':
-            emails = emails.filter(email => email.from === getLoggedInUser().email && !email.sentAt && !email.removedAt);
+            emails = emails.filter(email => !email.sentAt && !email.removedAt);
             break;
         default:
             console.log('No such folder');
@@ -110,13 +101,14 @@ function remove(id) {
     return storageService.remove(STORAGE_KEY, id)
 }
 
+
+// i have to options... or put new date at inbox cmp after send and not add isDraft for each email
+// or leave the date in server and check if it is draft
 function save(emailToSave) {
-    // put new data when send
-    emailToSave.sentAt = new Date();
-    if (emailToSave.id) {
+    // emailToSave.sentAt = new Date()
+    if(emailToSave.id) {
         return storageService.put(STORAGE_KEY, emailToSave)
     } else {
-        // emailToSave.isOn = false
         return storageService.post(STORAGE_KEY, emailToSave)
     }
 }
@@ -128,29 +120,12 @@ function getDefaultEmail(from = '', to ='', subject='', body='') {
             body: body,
             isRead: false,
             isStarred: false,
-            sentAt : _generateRandomDate(new Date(2023, 1, 1), new Date()),
+            sentAt : null,
             removedAt : null,
             from: from,
             to: to
         }
 }
-
-
-// function getDefaultFilter() {
-//     return {
-//         status: '',
-//         textSearch: '',
-//         isRead: null,
-//         date: ''
-//     }
-// }
-
-// function getDefaultSort() {
-//     return {
-//         fieldToSort:'',
-//         sortOrder:''
-//     }
-// }
 
 function getDefaultScreenState() {
     return {
@@ -187,24 +162,24 @@ function _generateEmails(count, emails) {
 }
 
 function _createSingleEmail() {
-    
     const email = getDefaultEmail()
     email.id = utilService.makeId()
     email.subject = faker.lorem.sentence()
     email.body = faker.lorem.paragraphs(1)
     
-    if (Math.random() > 0.4) {
-        // Generate sent emails
-        email.from = getLoggedInUser().email
-        email.to = faker.internet.email()
-    } else {
-        // Generate inbox emails
+    const rand = Math.random();
+    if(rand > 0.04){
         email.from = faker.internet.email()
         email.to = getLoggedInUser().email
+    } else {
+        email.from = getLoggedInUser().email
+        email.to = faker.internet.email()
     }
-
-    email.isRead = Math.random() > 0.8
-    email.isStarred = Math.random() > 0.8
+    
+    email.sentAt = _generateRandomDate(new Date(2023, 1, 1), new Date())
+    email.isRead = Math.random() > 0.78
+    email.isStarred = Math.random() > 0.78
+    email.removedAt = Math.random() > 0.8
 
     return email
 }
@@ -214,18 +189,7 @@ function _generateRandomDate(from, to) {
       from.getTime() +
         Math.random() * (to.getTime() - from.getTime()),
     )
-  }
-
-
-// function getFilterSortParams(searchParams){
-//     let defaultSort = getDefaultSort()
-//     const sortBy = {}
-//     for(const field in defaultSort){
-//         sortBy[field] = searchParams.get(field) || defaultSort[field]
-//     }
-//     return sortBy
-// }
-
+}
 
 function getDefaultSearch(searchParams) {
     const defaultFilter = getDefaultSearchOptions()
