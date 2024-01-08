@@ -36,6 +36,9 @@ export function EmailPreview({ email , onRemoveEmail, onUpdateEmail, onToggleSta
         }
     }
 
+    if(params.folder === 'draft' && !email.sentAt) {
+        console.log(email)
+    }
     const readModeClass = email.isRead ? 'read' : ''
 
     return (
@@ -45,31 +48,13 @@ export function EmailPreview({ email , onRemoveEmail, onUpdateEmail, onToggleSta
                 <Star size={20} strokeWidth={1.2} onClick={() => handleUpdate('isStarred')} fill={'rgb(240, 195, 14)'}/> : 
                 <Star size={20} strokeWidth={1.2} onClick={() => handleUpdate('isStarred')} fill={'none'}/> }
                 
-            {params.folder !== 'draft' ? <Link to={`/emails/${params.folder}/${email.id}`}>                  
-                <h1 className="from">{email.from}</h1>
-                <h1 className="subject">{email.subject.substring(0, 10)}</h1>
-                <h1 className="body">{email.body.substring(0, 30)}</h1>
-                <h1 className="sent-at">{RenderTime(email.sentAt)}</h1>
-            </Link> : 
-                <Link to={`/emails/draft/compose?=${email.id}`}>                  
-                <h1 className="from">{email.from}</h1>
-                <h1 className="subject">{email.subject.substring(0, 10)}</h1>
-                <h1 className="body">{email.body.substring(0, 30)}</h1>
-                <h1 className="sent-at">{RenderTime(email.sentAt)}</h1>
+                <Link to={ params.folder !== 'draft' ? `/emails/${params.folder}/${email.id}` : `/emails/draft/compose?compose=${email.id}`}> 
+                {/* <Link to={`/emails/${params.folder}/${email.id}`}>  */}
+                    <h1 className="from">{email.from}</h1>
+                    <h1 className="subject">{email.subject.substring(0, 10)}</h1>
+                    <h1 className="body">{email.body.substring(0, 30)}</h1>
+                    <h1 className="sent-at">{RenderTime(email.sentAt)}</h1>
                 </Link>
-            }
-
-            
-                
-                
-
-
-            {/* <Link to={`/emails/${params.folder}/${email.id}`}>
-                <h1 className="from">{email.from}</h1>
-                <h1 className="subject">{email.subject.substring(0, 10)}</h1>
-                <h1 className="body">{email.body.substring(0, 30)}</h1>
-                <h1 className="sent-at">{RenderTime(email.sentAt)}</h1>
-            </Link> */}
             <section className="actions-email">   
                 { email.isRead ? <MailOpen color={'black'} size={25} strokeWidth={1.2} onClick={() => handleUpdate('isRead')} /> : 
                             <Mail color={'black'} size={25} strokeWidth={1.2} onClick={() => handleUpdate('isRead')} />}
