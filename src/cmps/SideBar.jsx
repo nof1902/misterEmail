@@ -34,13 +34,11 @@ export function SideBar() {
         },
     ]
 
-    console.log(params)
-
     return (
         <nav className="sidebar">
             <ul>
                 <li className='compose'>
-                    <Link to={`/emails/${params.folder}/compose?compose=new`}>
+                    <Link to={`/emails/${params.folder}/edit?compose=new`}>
                         <Pencil size={20} strokeWidth={1.5}/>
                         <span>Compose</span>  
                     </Link>

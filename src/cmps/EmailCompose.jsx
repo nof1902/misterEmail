@@ -14,8 +14,7 @@ import { useDebounce } from "../customHooks/useDebounce"
 export function EmailCompose() {
     const location = useLocation()
     const queryParams = new URLSearchParams(location.search)
-    const composedId = queryParams.get('compose')
-
+    const composedId = queryParams.get('edit')
     const [email, setEmail] = useState(emailService.getDefaultEmail())
     const debouncedEmail = useDebounce(email)
     const { onAddEmail, onUpdateEmail} = useOutletContext()
@@ -25,8 +24,6 @@ export function EmailCompose() {
         isFull: false,
         isMinimize: false
     }) 
-
-    console.log(composedId)
 
     useEffect(() => {
         if (composedId) loadEmail()

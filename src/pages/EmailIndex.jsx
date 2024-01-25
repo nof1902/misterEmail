@@ -21,8 +21,6 @@ export function EmailIndex() {
     loadEmail();
   }, [searchBy, params.folder, params.compose, params.id]);
 
-  console.log(params.id)
-
   async function loadEmail() {
     try {
       const emails = await emailService.query(searchBy, params.folder);
@@ -79,8 +77,7 @@ export function EmailIndex() {
           return email.id === mailToUpdate.id ? updatedEmail : email;
         })
       );
-
-      console.log('email from index' , updatedEmail)
+      
       return updatedEmail;
     } catch (error) {
       showErrorMsg("Could Not Update Email");

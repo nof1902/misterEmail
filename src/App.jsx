@@ -14,11 +14,11 @@ export function App() {
             <Router>
                 <main className="main-app">
                     <Routes>
-                        <Route path="/" element={<HomePage />} />
+                        <Route path="/" element={<EmailIndex />} />
                         <Route path="/about" element={<AboutUs />}/>
                         <Route path="/emails/:folder" element={<EmailIndex />}>
-                            <Route path="/emails/:folder/:id" element={<EmailDetails />} />
-                            <Route path="/emails/:folder/compose" element={<EmailCompose />} />
+                            <Route path=":id" element={<EmailDetails />} />
+                            <Route path="edit" element={<EmailCompose />} />
                         </Route>
                     </Routes>
                 </main>

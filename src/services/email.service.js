@@ -101,9 +101,6 @@ function remove(id) {
     return storageService.remove(STORAGE_KEY, id)
 }
 
-
-// i have to options... or put new date at inbox cmp after send and not add isDraft for each email
-// or leave the date in server and check if it is draft
 function save(emailToSave) {
     // emailToSave.sentAt = new Date()
     if(emailToSave.id) {
