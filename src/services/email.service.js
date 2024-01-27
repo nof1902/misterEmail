@@ -2,7 +2,7 @@ import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
 import { faker } from '@faker-js/faker';
 
-const EMAIL_COUNT = 10;
+const EMAIL_COUNT = 30;
 
 export const emailService = {
     query,

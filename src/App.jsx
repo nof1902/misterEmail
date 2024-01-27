@@ -14,7 +14,7 @@ export function App() {
             <Router>
                 <main className="main-app">
                     <Routes>
-                        <Route path="/" element={<EmailIndex />} />
+                        <Route path="/" element={<HomePage />} />
                         <Route path="/about" element={<AboutUs />}/>
                         <Route path="/emails/:folder" element={<EmailIndex />}>
                             <Route path=":id" element={<EmailDetails />} />
